@@ -4,7 +4,7 @@ import { trpc } from "../utils/trpc";
 
 const Home: NextPage = () => {
   const { data, isLoading } = trpc.useQuery([
-    "example.hello",
+    "character.hello",
     { text: "from tRPC" },
   ]);
 
