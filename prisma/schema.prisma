@@ -12,28 +12,44 @@ datasource db {
     referentialIntegrity = "prisma"
 }
 
+model Game {
+    id    String  @id @unique @default(cuid())
+    name  String // Dragon Ball FighterZ
+    tag   String // DBFZ
+    Input Input[]
+}
+
 model Character {
     id        String @id @unique @default(cuid())
     name      String
     tag       String
     iconUrl   String
     renderUrl String
+    Combo     Combo?
 }
 
+// [['dpadNeutral', 'lightAttack', 'lightAttack', 'lightAttack'], ...[Notation]]]
 model Combo {
     id         String     @id @unique @default(cuid())
     createdAt  DateTime   @default(now())
     notations  Notation[]
     damage     Int?
-    meterGain  Int?
+    meterGain  Decimal?   @db.Decimal(10, 1)
     worksOn    String?
     difficulty String?
     notes      String?    @db.VarChar(255)
+
+    character   Character @relation(fields: [characterId], references: [id])
+    characterId String
+
+    @@unique([characterId])
+    @@index([characterId])
 }
 
+// ['5', 'L', 'L', 'L']
 model Notation {
-    id    String  @id @unique @default(cuid())
-    Input Input[]
+    id     String  @id @unique @default(cuid())
+    inputs Input[]
 
     combo   Combo  @relation(fields: [comboId], references: [id])
     comboId String
@@ -43,20 +59,15 @@ model Notation {
 }
 
 model Input {
-    id         String  @id @unique @default(cuid())
-    attack     String? // L M H S
-    assist     String? // A1 A2
-    superDash  String? // SD
-    dragonRush String? // DR
-    followUp   String? // ~
-    direction  Int? // 123456789
-    modifier   String? // j. sj. jc. sjc. vanish delay land
+    id    String @id @unique @default(cuid())
+    name  String // e.g. 'lightAttack' or 'dpadDown'
+    input String // e.g. 'L' or  '2'
 
-    notation   Notation @relation(fields: [notationId], references: [id])
-    notationId String
+    Game   Game?   @relation(fields: [gameId], references: [id])
+    gameId String?
 
-    @@unique([notationId])
-    @@index([notationId])
+    Notation   Notation? @relation(fields: [notationId], references: [id])
+    notationId String?
 }
 
 // Necessary for Next auth
