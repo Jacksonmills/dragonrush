@@ -13,61 +13,43 @@ datasource db {
 }
 
 model Game {
-    id    String  @id @unique @default(cuid())
-    name  String // Dragon Ball FighterZ
-    tag   String // DBFZ
-    Input Input[]
+    id         String      @id @unique @default(cuid())
+    name       String // Dragon Ball FighterZ
+    tag        String // DBFZ
+    characters Character[]
+    combos     Combo[]
 }
 
 model Character {
-    id        String @id @unique @default(cuid())
+    id        String  @id @unique @default(cuid())
     name      String
     tag       String
     iconUrl   String
     renderUrl String
-    Combo     Combo?
+    combos    Combo[]
+
+    game   Game   @relation(fields: [gameId], references: [id])
+    gameId String
 }
 
-// [['dpadNeutral', 'lightAttack', 'lightAttack', 'lightAttack'], ...[Notation]]]
 model Combo {
-    id         String     @id @unique @default(cuid())
-    createdAt  DateTime   @default(now())
-    notations  Notation[]
+    id         String   @id @unique @default(cuid())
+    createdAt  DateTime @default(now())
+    notation   Json
     damage     Int?
-    meterGain  Decimal?   @db.Decimal(10, 1)
+    meterGain  Decimal? @db.Decimal(10, 1)
     worksOn    String?
     difficulty String?
-    notes      String?    @db.VarChar(255)
+    notes      String?  @db.VarChar(255)
 
     character   Character @relation(fields: [characterId], references: [id])
     characterId String
 
-    @@unique([characterId])
-    @@index([characterId])
-}
+    game   Game   @relation(fields: [gameId], references: [id])
+    gameId String
 
-// ['5', 'L', 'L', 'L']
-model Notation {
-    id     String  @id @unique @default(cuid())
-    inputs Input[]
-
-    combo   Combo  @relation(fields: [comboId], references: [id])
-    comboId String
-
-    @@unique([comboId])
-    @@index([comboId])
-}
-
-model Input {
-    id    String @id @unique @default(cuid())
-    name  String // e.g. 'lightAttack' or 'dpadDown'
-    input String // e.g. 'L' or  '2'
-
-    Game   Game?   @relation(fields: [gameId], references: [id])
-    gameId String?
-
-    Notation   Notation? @relation(fields: [notationId], references: [id])
-    notationId String?
+    @@unique([characterId, gameId])
+    @@index([characterId, gameId])
 }
 
 // Necessary for Next auth
