@@ -6,4 +6,7 @@ export const characterRouter = createRouter()
     async resolve({ ctx }) {
       return await ctx.prisma.character.findMany();
     },
+  })
+  .mutation("create", {
+    async resolve() { }
   });

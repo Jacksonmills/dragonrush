@@ -1,11 +1,8 @@
 import type { NextPage } from "next";
 import Head from "next/head";
 import styled from "styled-components";
-import { trpc } from "../utils/trpc";
-
-type NotationData = {
-  steps: string[][];
-};
+import { trpc } from "@/utils/trpc";
+import { NotationData } from "@/types";
 
 const Home: NextPage = () => {
   const { data: characters, isLoading } = trpc.useQuery([

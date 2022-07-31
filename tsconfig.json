@@ -19,6 +19,12 @@
     "jsx": "preserve",
     "incremental": true,
     "noUncheckedIndexedAccess": true,
+    "baseUrl": ".",
+    "paths": {
+      "@/*": [
+        "./src/*"
+      ]
+    },
     "plugins": [
       {
         "transform": "typescript-plugin-styled-components",
@@ -30,7 +36,7 @@
   },
   "include": [
     "next-env.d.ts",
-    "next-auth.d.ts",
+    "src/types/next-auth.d.ts",
     "**/*.ts",
     "**/*.tsx",
     "**/*.js",
