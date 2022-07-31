@@ -7,7 +7,7 @@ export const trpc = createReactQueryHooks<AppRouter>();
 
 /**
  * This is a helper method to infer the output of a query resolver
- * @example type HelloOutput = inferQueryOutput<'hello'>
+ * @character type CharacterOutput = inferQueryOutput<'getAll'>
  */
 export type inferQueryOutput<
   TRouteKey extends keyof AppRouter["_def"]["queries"],

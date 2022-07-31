@@ -1,5 +1,6 @@
 import type { NextPage } from "next";
 import Head from "next/head";
+import styled from "styled-components";
 import { trpc } from "../utils/trpc";
 
 const Home: NextPage = () => {
@@ -18,9 +19,17 @@ const Home: NextPage = () => {
         <link rel="icon" href="/favicon.ico" />
       </Head>
       <h1>Dragon Rush</h1>
-      {characters.map((character, idx) => (<div key={idx}>{character.name}</div>))}
+      {characters.map((character, idx) => (<CharacterName key={idx}>{character.name}</CharacterName>))}
+
+      <div>
+        <h2>Combos:</h2>
+      </div>
     </>
   );
 };
+
+const CharacterName = styled.div`
+  color: red;
+`;
 
 export default Home;
