@@ -4,6 +4,7 @@ import type { AppRouter } from "@/server/router";
 import type { AppType } from "next/dist/shared/lib/utils";
 import superjson from "superjson";
 import { SessionProvider } from "next-auth/react";
+import GlobalStyles from "@/components/GlobalStyles";
 
 const MyApp: AppType = ({
   Component,
@@ -12,6 +13,8 @@ const MyApp: AppType = ({
   return (
     <SessionProvider session={session}>
       <Component {...pageProps} />
+      <GlobalStyles />
+      <div id='modal'></div>
     </SessionProvider>
   );
 };
