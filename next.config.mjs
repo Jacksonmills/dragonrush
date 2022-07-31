@@ -18,4 +18,7 @@ export default defineNextConfig({
   compiler: {
     styledComponents: true,
   },
+  images: {
+    domains: ['www.dustloop.com', 'dustloop.com', 'www.twitter.com', 'abs.twimg.com', 'pbs.twimg.com', 'cdn.discordapp.com'],
+  },
 });
