@@ -1,7 +1,6 @@
 import styled from 'styled-components';
 import Link from 'next/link';
-import { Github } from '@styled-icons/boxicons-logos/Github';
-import { FlagFill } from '@styled-icons/bootstrap/FlagFill';
+import { GitHub, Flag } from 'react-feather';
 
 
 // import Tooltip from '../Tooltip';
@@ -14,7 +13,7 @@ const Footer = () => {
       <Links>
         <Link href='https://github.com/Jacksonmills/combo-z'>
           <a>
-            <Github />
+            <GitHub />
           </a>
         </Link>
       </Links>
@@ -35,7 +34,7 @@ const Footer = () => {
         </Disclaimer>
       </Tooltip> */}
       <Disclaimer>
-        <FlagFill />
+        <Flag />
       </Disclaimer>
     </Wrapper>
   );
