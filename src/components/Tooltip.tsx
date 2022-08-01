@@ -5,7 +5,7 @@ import { followCursor } from 'tippy.js';
 import 'tippy.js/dist/tippy.css'; // optional
 import 'tippy.js/animations/shift-away-subtle.css';
 
-import UnstyledButton from '../UnstyledButton';
+import UnstyledButton from './UnstyledButton';
 import { COLORS } from '@/constants';
 
 const Tooltip = ({

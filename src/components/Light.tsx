@@ -1,6 +1,6 @@
 import styled from 'styled-components';
 
-import InputLabel from '../InputLabel';
+import InputLabel from './InputLabel';
 import { COLORS, ATTACKS } from '@/constants';
 
 const Light = () => {

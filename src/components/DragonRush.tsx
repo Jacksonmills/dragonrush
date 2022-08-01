@@ -1,7 +1,7 @@
 import styled from 'styled-components';
 import { COLORS, ATTACKS } from '@/constants';
 
-import InputLabel from '../InputLabel';
+import InputLabel from './InputLabel';
 
 const DragonRush = () => {
   return (

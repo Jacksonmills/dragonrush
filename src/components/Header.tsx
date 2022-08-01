@@ -7,8 +7,8 @@ import Image from 'next/image';
 import { COLORS } from '@/constants';
 
 import Button from './Button';
-// import CharacterSelect from '../CharacterSelect';
-// import AddCharacter from '../AddCharacter';
+import CharacterSelect from './CharacterSelect';
+import AddCharacter from './AddCharacter';
 
 const Header = () => {
   const { data: session, status } = useSession();
@@ -22,9 +22,9 @@ const Header = () => {
         <Logo><span>Combo</span>Z</Logo>
       </Link>
       <NavControls>
-        {/* {isDev && (
+        {isDev && (
           <AddCharacter />
-        )} */}
+        )}
         {/* <CharacterSelect characters={characters} /> */}
         {!loggedIn && (
           <UserAuth tabIndex={0} aria-label='user dropdown, opens dialog' aria-live='polite'>
@@ -47,7 +47,6 @@ const Header = () => {
             </DropDown>
           </UserAuth>
         )}
-        <a href="https://twitter.com/intent/tweet?button_hashtag=DBFZ_&ref_src=twsrc%5Etfw" className="twitter-hashtag-button" data-show-count="false">Tweet #DBFZ_</a><script async src="https://platform.twitter.com/widgets.js" charSet="utf-8"></script>
       </NavControls>
     </Wrapper>
   );

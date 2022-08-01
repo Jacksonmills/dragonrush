@@ -1,13 +1,9 @@
 import styled from 'styled-components';
 import Link from 'next/link';
 import { GitHub, Flag } from 'react-feather';
-
-
-// import Tooltip from '../Tooltip';
+import { COLORS } from '@/constants';
 
 const Footer = () => {
-  const disclaimerContent = `Disclaimer: Content is available under CC  BY-NC-SA 3.0 unless otherwise noted. Game content and materials are trademarks and copyrights of their respective publisher and its licensors. All rights reserved.`;
-
   return (
     <Wrapper>
       <Links>
@@ -20,22 +16,16 @@ const Footer = () => {
       <Link href='/'>
         <Logo><span>Combo</span>Z</Logo>
       </Link>
-      {/* <Tooltip
-        content={disclaimerContent}
-        offset={[0, 20]}
-        duration={48}
-        placement='top'
-        delay={[248, 0]}
-        followCursor={false}
-        href='https://creativecommons.org/licenses/by-nc-sa/3.0/'
-      >
-        <Disclaimer>
-          <FlagFill />
-        </Disclaimer>
-      </Tooltip> */}
-      <Disclaimer>
-        <Flag />
-      </Disclaimer>
+      <Link href='https://creativecommons.org/licenses/by-nc-sa/3.0/' passHref>
+        <DisclaimerTrigger tabIndex={0} aria-label='Content disclaimer, opens dialog' aria-live='polite'>
+          <Flag />
+          <PopUp>
+            <Disclaimer>
+              Disclaimer: Content is available under CC  BY-NC-SA 3.0 unless otherwise noted. Game content and materials are trademarks and copyrights of their respective publisher and its licensors. All rights reserved.
+            </Disclaimer>
+          </PopUp>
+        </DisclaimerTrigger>
+      </Link>
     </Wrapper>
   );
 };
@@ -93,9 +83,63 @@ const Links = styled.ul`
 `;
 
 const Disclaimer = styled.p`
-  color: #c27400;
   display: flex;
   align-items: center;
+`;
+
+const PopUp = styled.div`
+  --background-color: ${COLORS.white};
+  --color: ${COLORS.black};
+
+  position: absolute;
+  bottom: 100%;
+  right: 0;
+  display: block;
+  min-width: 300px;
+  padding: 1em;
+  color: var(--color);
+  background-color: var(--background-color);
+  border-radius: 4px;
+  pointer-events: none;
+  opacity: 0;
+  transform: translateY(12px);
+  transition: transform 200ms ease, opacity 200ms ease;
+
+  &:focus-within {
+    pointer-events: initial;
+    opacity: 1;
+    transform: translateY(-12px);
+  }
+
+  &:before {
+    content: '';
+    position: absolute;
+    bottom: -4px;
+    right: 8px;
+    width: 10px;
+    height: 10px;
+    background-color: var(--background-color);
+    border-radius: 2px;
+    transform: rotate(45deg);
+  }
+
+  button {
+    width: 100%;
+  }
+`;
+
+const DisclaimerTrigger = styled.a`
+  position: relative;
+  color: #c27400;
+  cursor: pointer;
+
+  &:hover, &:focus {
+    ${PopUp} {
+      pointer-events: initial;
+      opacity: 1;
+      transform: translateY(-12px);
+    }
+  }
 `;
 
 export default Footer;

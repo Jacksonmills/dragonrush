@@ -763,11 +763,6 @@ chalk@^4.0.0:
     ansi-styles "^4.1.0"
     supports-color "^7.1.0"
 
-classnames@^2.2.5:
-  version "2.3.1"
-  resolved "https://registry.yarnpkg.com/classnames/-/classnames-2.3.1.tgz#dfcfa3891e306ec1dad105d0e88f4417b8535e8e"
-  integrity sha512-OlQdbZ7gLfGarSqxesMesDa5uz7KFbID8Kpq/SxIoNGDqY8lSYs0D+hhtBXhcdB3rcbXArFr7vlHheLk1voeNA==
-
 color-convert@^1.9.0:
   version "1.9.3"
   resolved "https://registry.yarnpkg.com/color-convert/-/color-convert-1.9.3.tgz#bb71850690e1f136567de629d2d5471deda4c1e8"
@@ -813,11 +808,6 @@ core-js-pure@^3.20.2:
   version "3.24.0"
   resolved "https://registry.yarnpkg.com/core-js-pure/-/core-js-pure-3.24.0.tgz#10eeb90dbf0d670a6b22b081aecc7deb2faec7e1"
   integrity sha512-uzMmW8cRh7uYw4JQtzqvGWRyC2T5+4zipQLQdi2FmiRqP83k3d6F3stv2iAlNhOs6cXN401FCD5TL0vvleuHgA==
-
-core-js@^3.1.3:
-  version "3.24.1"
-  resolved "https://registry.yarnpkg.com/core-js/-/core-js-3.24.1.tgz#cf7724d41724154010a6576b7b57d94c5d66e64f"
-  integrity sha512-0QTBSYSUZ6Gq21utGzkfITDylE8jWC9Ne1D2MrhvlsZBI1x39OdDIVbzSqtgMndIy6BlHxBXpMGqzZmnztg2rg==
 
 cross-spawn@^7.0.2:
   version "7.0.3"
@@ -1208,14 +1198,6 @@ fastq@^1.6.0:
   integrity sha512-YpkpUnK8od0o1hmeSc7UUs/eB/vIPWJYjKck2QKIzAf71Vm1AAQ3EbuZB3g2JIy+pg+ERD0vqI79KyZiB2e2Nw==
   dependencies:
     reusify "^1.0.4"
-
-feather-icons@^4.29.0:
-  version "4.29.0"
-  resolved "https://registry.yarnpkg.com/feather-icons/-/feather-icons-4.29.0.tgz#4e40e3cbb7bf359ffbbf700edbebdde4e4a74ab6"
-  integrity sha512-Y7VqN9FYb8KdaSF0qD1081HCkm0v4Eq/fpfQYQnubpqi0hXx14k+gF9iqtRys1SIcTEi97xDi/fmsPFZ8xo0GQ==
-  dependencies:
-    classnames "^2.2.5"
-    core-js "^3.1.3"
 
 file-entry-cache@^6.0.1:
   version "6.0.1"
@@ -1985,7 +1967,7 @@ prisma@^4.1.0:
   dependencies:
     "@prisma/engines" "4.1.0"
 
-prop-types@^15.8.1:
+prop-types@^15.7.2, prop-types@^15.8.1:
   version "15.8.1"
   resolved "https://registry.yarnpkg.com/prop-types/-/prop-types-15.8.1.tgz#67d87bf1a694f48435cf332c24af10214a3140b5"
   integrity sha512-oj87CgZICdulUohogVAR7AjlC0327U4el4L6eAvOqCeudMDVU0NThNaV+b9Df4dXgSP1gXMTnPdhfe/2qDH5cg==
@@ -2011,6 +1993,13 @@ react-dom@18.2.0:
   dependencies:
     loose-envify "^1.1.0"
     scheduler "^0.23.0"
+
+react-feather@^2.0.10:
+  version "2.0.10"
+  resolved "https://registry.yarnpkg.com/react-feather/-/react-feather-2.0.10.tgz#0e9abf05a66754f7b7bb71757ac4da7fb6be3b68"
+  integrity sha512-BLhukwJ+Z92Nmdcs+EMw6dy1Z/VLiJTzEQACDUEnWMClhYnFykJCGWQx+NmwP/qQHGX/5CzQ+TGi8ofg2+HzVQ==
+  dependencies:
+    prop-types "^15.7.2"
 
 react-gamepads@^1.0.0:
   version "1.0.0"
