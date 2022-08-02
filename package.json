@@ -10,6 +10,7 @@
     "postinstall": "prisma generate"
   },
   "dependencies": {
+    "@hookform/resolvers": "^2.9.7",
     "@next-auth/prisma-adapter": "^1.0.4",
     "@prisma/client": "^4.1.0",
     "@trpc/client": "^9.26.2",
@@ -22,6 +23,7 @@
     "react-dom": "18.2.0",
     "react-feather": "^2.0.10",
     "react-gamepads": "^1.0.0",
+    "react-hook-form": "^7.34.0",
     "react-is": "^18.2.0",
     "react-query": "^3.39.2",
     "react-spring": "^9.5.2",

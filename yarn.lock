@@ -163,6 +163,11 @@
     minimatch "^3.1.2"
     strip-json-comments "^3.1.1"
 
+"@hookform/resolvers@^2.9.7":
+  version "2.9.7"
+  resolved "https://registry.yarnpkg.com/@hookform/resolvers/-/resolvers-2.9.7.tgz#8b257ae67234ce0270e6b044c1a61fb98ec02b4b"
+  integrity sha512-BloehX3MOLwuFEwT4yZnmolPjVmqyn8VsSuodLfazbCIqxBHsQ4qUZsi+bvNNCduRli1AGWFrkDLGD5QoNzsoA==
+
 "@humanwhocodes/config-array@^0.9.2":
   version "0.9.5"
   resolved "https://registry.yarnpkg.com/@humanwhocodes/config-array/-/config-array-0.9.5.tgz#2cbaf9a89460da24b5ca6531b8bbfc23e1df50c7"
@@ -2005,6 +2010,11 @@ react-gamepads@^1.0.0:
   version "1.0.0"
   resolved "https://registry.yarnpkg.com/react-gamepads/-/react-gamepads-1.0.0.tgz#72373c6bd332e0c42bb2d1584413d71fdb34f5da"
   integrity sha512-jfmIBHI1EgjhEUOGTYnrzfhM6fV75d/rZAEuG90fwYBJ2mP2z+Z42UoodXa3OD00q9zGFeQCESlSY20UjAIGzA==
+
+react-hook-form@^7.34.0:
+  version "7.34.0"
+  resolved "https://registry.yarnpkg.com/react-hook-form/-/react-hook-form-7.34.0.tgz#22883b5e014e5c5e35f3061d0e3862153b0df2ec"
+  integrity sha512-s0/TJ09NVlEk2JPp3yit1WnMuPNBXFmUKEQPulgDi9pYBw/ZmmAFHe6AXWq73Y+kp8ye4OcMf0Jv+i/qLPektg==
 
 react-is@^16.13.1, react-is@^16.7.0:
   version "16.13.1"

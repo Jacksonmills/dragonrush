@@ -33,11 +33,13 @@ export const characterRouter = createRouter()
     async resolve({ input, ctx }) {
       return await ctx.prisma.character.create({
         data: {
-          name: input.name,
+          name: input.characterName,
           tag: input.tag,
           iconUrl: input.iconUrl,
           renderUrl: input.renderUrl,
-          gameId: input.gameId
+          game: {
+            connect: { id: input.gameId }
+          },
         }
       });
     }

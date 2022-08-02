@@ -12,7 +12,6 @@ const Home: NextPage = () => {
   const { data: characters, isLoading } = trpc.useQuery([
     "character.getAll"
   ]);
-
   const { data: combos } = trpc.useQuery(["combo.getAll"]);
 
   if (isLoading || !characters || !combos) return <div>Loading...</div>;

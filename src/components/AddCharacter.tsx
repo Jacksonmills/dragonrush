@@ -11,8 +11,14 @@ import Button from './Button';
 import { COLORS } from '@/constants';
 import { useSession } from 'next-auth/react';
 import { trpc } from '@/utils/trpc';
+import { Game } from '@prisma/client';
+import { useFieldArray, useForm } from 'react-hook-form';
+import { zodResolver } from '@hookform/resolvers/zod';
+import { useRouter } from 'next/router';
+import { CreateCharacterInputType, createCharacterValidator } from '@/shared/create-character-validator';
 
 const AddCharacter = () => {
+  const router = useRouter();
   const { data: session, status } = useSession();
   const [isHovered, setIsHovered] = useState(false);
   const [showModal, setShowModal] = useState(false);
@@ -26,46 +32,26 @@ const AddCharacter = () => {
     },
   });
 
-  const [game, setGame] = useState('');
-  const [character, setCharacter] = useState('');
-  const [tag, setTag] = useState('');
-  const [icon, setIcon] = useState('');
-  const [render, setRender] = useState('');
+  const {
+    register,
+    handleSubmit,
+    control,
+    formState: {
+      errors
+    }
+  } = useForm<CreateCharacterInputType>({
+    resolver: zodResolver(createCharacterValidator),
+  });
 
-  const { data: games, isLoading } = trpc.useQuery(["game.getAll"]);
-  if (!games || isLoading) return <div>Games loading...</div>;
+  const { data: games, isLoading: gamesLoading } = trpc.useQuery(["game.getAll"]);
+  if (gamesLoading || !games) return <div>Games loading...</div>;
 
-  async function handleSubmit(event: FormEvent) {
-    event.preventDefault();
-    const target = event.target as typeof event.target & {
-      characterValue: { value: string; };
-      tagValue: { value: string; };
-      iconValue: { value: string; };
-      renderValue: { value: string; };
-    };
-    // const uid = session?.user; // TODO: use current
-    const characterValue = character;
-    const tagValue = tag;
-    const iconValue = icon;
-    const renderValue = render;
-
-    const response = await
-      fetch("/api/characters", {
-        method: "POST",
-        body: JSON.stringify({ character: characterValue, tag: tagValue, icon: iconValue, render: renderValue }),
-        headers:
-        {
-          "Content-Type": "application/json",
-        },
-      });
-    const data = await response.json();
-    console.log(data);
-    setGame('');
-    setCharacter('');
-    setTag('');
-    setIcon('');
-    setRender('');
-  }
+  const { mutate, isLoading, data } = trpc.useMutation("character.create", {
+    onSuccess: (data) => {
+      router.push(`/character/${data.tag}`);
+    }
+  });
+  if (isLoading || data) return <div>Loading...</div>;
 
   const AddCharacterModal = () => {
     const modalDiv: HTMLElement = document.getElementById('modal')!;
@@ -83,58 +69,58 @@ const AddCharacter = () => {
                 <Minimize2 />
               </CloseButton>
             </AnimatedDiv>
-            <AddCharacterForm onSubmit={handleSubmit}>
+            <AddCharacterForm onSubmit={handleSubmit((data) => mutate(data))}>
               <AddCharacterLabel>
                 Game:
-                <select id="games" name="games" required onChange={(e) => setGame(e.target.value)}>
-                  {games.map((game, idx) => (<option key={idx} value={game.id}>{game.name}</option>))}
+                <select {...register("gameId")} name="gameId" required>
+                  {games.map((game: Game, idx) => (<option key={idx} value={game.id}>{game.name}</option>))}
                 </select>
               </AddCharacterLabel>
+              {errors?.gameId && (<Error>{errors.gameId.message}</Error>)}
               <AddCharacterLabel>
                 Character Name:
                 <AddCharacterInput
-                  onChange={(e) => setCharacter(e.target.value)}
+                  {...register("characterName")}
                   type="text"
-                  name="character"
-                  value={character}
+                  name="characterName"
                   placeholder="Character name e.g. Goku Black"
                   required
                 />
               </AddCharacterLabel>
+              {errors?.characterName && (<Error>{errors.characterName.message}</Error>)}
               <AddCharacterLabel>
                 Tag:
                 <AddCharacterInput
-                  onChange={(e) => setTag(e.target.value)}
+                  {...register("tag")}
                   type="text"
                   name="tag"
-                  value={tag}
                   placeholder="Character tag e.g. BLK"
                   required
                 />
               </AddCharacterLabel>
+              {errors?.tag && (<Error>{errors.tag.message}</Error>)}
               <AddCharacterLabel>
                 Icon:
                 <AddCharacterInput
-                  onChange={(e) => setIcon(e.target.value)}
+                  {...register("iconUrl")}
                   type="text"
-                  name="icon"
-                  value={icon}
+                  name="iconUrl"
                   placeholder="Icon asset e.g. http://www.dustloop.com/wiki/images/a/a3/DBFZ_Goku_Black_Icon.png"
                   required
                 />
               </AddCharacterLabel>
+              {errors?.iconUrl && (<Error>{errors.iconUrl.message}</Error>)}
               <AddCharacterLabel>
                 Render:
                 <AddCharacterInput
-                  onChange={(e) => setRender(e.target.value)}
+                  {...register("renderUrl")}
                   type="text"
-                  name="render"
-                  id="render"
-                  value={render}
+                  name="renderUrl"
                   placeholder="Character render asset e.g. http://www.dustloop.com/wiki/images/d/df/DBFZ_Goku_Black_Portrait.png"
                   required
                 />
               </AddCharacterLabel>
+              {errors?.renderUrl && (<Error>{errors.renderUrl.message}</Error>)}
               <br />
               <Button type='submit'>Add</Button>
             </AddCharacterForm>
@@ -214,6 +200,10 @@ const CloseButton = styled(UnstyledButton)`
   display: flex;
   padding: .5em;
   cursor: pointer;
+`;
+
+const Error = styled.p`
+  color: red;
 `;
 
 export default AddCharacter;
