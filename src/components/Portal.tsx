@@ -8,7 +8,7 @@ const Portal = ({ Component, container, ...props }: { Component: JSXElementConst
       container.innerHTML = '';
       setInnerHtmlEmptied(true);
     }
-  }, [innerHtmlEmptied]);
+  }, [innerHtmlEmptied, container]);
   if (!innerHtmlEmptied) return null;
   return createPortal(<Component {...props} />, container);
 };

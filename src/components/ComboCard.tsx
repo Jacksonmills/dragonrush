@@ -18,7 +18,7 @@ const ComboCard = (props: Combo) => {
     );
   });
 
-  const tagUrl = `https://twitter.com/search?q=%23DBFZ_${props.tag}&src=typed_query`;
+  const tagUrl = `https://twitter.com/search?q=%23DBFZ_${props.characterTag}&src=typed_query`;
 
   const handlePlayCombo = () => {
     console.log('Playing Combo...');
