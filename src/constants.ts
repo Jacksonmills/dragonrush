@@ -13,6 +13,63 @@ export const COLORS = {
   secondary: 'hsl(357, 78%, 55%)',
 };
 
-export const ATTACKS = {
+export const INPUTS = {
   size: `${32 / 16}rem`,
+  attacks: [
+    'L',
+    'M',
+    'H',
+    'S'
+  ],
+  directions: [
+    '1', '2', '3', '4', '5', '6', '7', '8', '9', '236', '214'
+  ]
 };
+
+export const TAGS = [
+  "A16",
+  "A17",
+  "A18",
+  "A21",
+  "L21",
+  "AGH",
+  "BDK",
+  "BGK",
+  "BLK",
+  "BRO",
+  "BRS",
+  "BVG",
+  "CEL",
+  "CLR",
+  "FRZ",
+  "GKN",
+  "GKU",
+  "GNY",
+  "GT4",
+  "GTA",
+  "GTG",
+  "GTK",
+  "GUI",
+  "HIT",
+  "JNB",
+  "JRN",
+  "KBU",
+  "KEF",
+  "KRL",
+  "L21",
+  "MBU",
+  "NAP",
+  "PIC",
+  "RSH",
+  "SB2",
+  "SBR",
+  "TEN",
+  "TNK",
+  "VDL",
+  "VGN",
+  "VGT",
+  "VTO",
+  "YAM",
+  "YGH",
+  "ZAM",
+];

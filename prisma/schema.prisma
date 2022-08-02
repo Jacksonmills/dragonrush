@@ -30,6 +30,8 @@ model Character {
 
     game   Game   @relation(fields: [gameId], references: [id])
     gameId String
+
+    @@unique([id, tag])
 }
 
 model Combo {
@@ -42,14 +44,15 @@ model Combo {
     difficulty String?
     notes      String?  @db.VarChar(255)
 
-    character   Character @relation(fields: [characterId], references: [id])
-    characterId String
+    character    Character @relation(fields: [characterId, characterTag], references: [id, tag])
+    characterId  String
+    characterTag String
 
     game   Game   @relation(fields: [gameId], references: [id])
     gameId String
 
-    @@unique([characterId, gameId])
-    @@index([characterId, gameId])
+    @@unique([characterId, characterTag, gameId])
+    @@index([characterId, characterTag, gameId])
 }
 
 // Necessary for Next auth

@@ -10,16 +10,30 @@ import UnstyledButton from './UnstyledButton';
 import Button from './Button';
 import { COLORS } from '@/constants';
 import { useSession } from 'next-auth/react';
+import { trpc } from '@/utils/trpc';
 
 const AddCharacter = () => {
   const { data: session, status } = useSession();
   const [isHovered, setIsHovered] = useState(false);
   const [showModal, setShowModal] = useState(false);
 
+  const styles = useSpring({
+    willChange: 'transform',
+    transform: isHovered ? `scale(1.1)` : `scale(1)`,
+    config: {
+      tension: 300,
+      friction: 10,
+    },
+  });
+
+  const [game, setGame] = useState('');
   const [character, setCharacter] = useState('');
   const [tag, setTag] = useState('');
   const [icon, setIcon] = useState('');
   const [render, setRender] = useState('');
+
+  const { data: games, isLoading } = trpc.useQuery(["game.getAll"]);
+  if (!games || isLoading) return <div>Games loading...</div>;
 
   async function handleSubmit(event: FormEvent) {
     event.preventDefault();
@@ -46,20 +60,12 @@ const AddCharacter = () => {
       });
     const data = await response.json();
     console.log(data);
+    setGame('');
     setCharacter('');
     setTag('');
     setIcon('');
     setRender('');
   }
-
-  const styles = useSpring({
-    willChange: 'transform',
-    transform: isHovered ? `scale(1.1)` : `scale(1)`,
-    config: {
-      tension: 300,
-      friction: 10,
-    },
-  });
 
   const AddCharacterModal = () => {
     const modalDiv: HTMLElement = document.getElementById('modal')!;
@@ -78,6 +84,12 @@ const AddCharacter = () => {
               </CloseButton>
             </AnimatedDiv>
             <AddCharacterForm onSubmit={handleSubmit}>
+              <AddCharacterLabel>
+                Game:
+                <select id="games" name="games" required onChange={(e) => setGame(e.target.value)}>
+                  {games.map((game, idx) => (<option key={idx} value={game.id}>{game.name}</option>))}
+                </select>
+              </AddCharacterLabel>
               <AddCharacterLabel>
                 Character Name:
                 <AddCharacterInput

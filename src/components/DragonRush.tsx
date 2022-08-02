@@ -1,5 +1,5 @@
 import styled from 'styled-components';
-import { COLORS, ATTACKS } from '@/constants';
+import { COLORS, INPUTS } from '@/constants';
 
 import InputLabel from './InputLabel';
 
@@ -35,8 +35,8 @@ const Theme = styled.div`
   font-weight: 500;
   text-align: center;
   color: ${COLORS.white};
-  width: ${ATTACKS.size};
-  height: ${ATTACKS.size};
+  width: ${INPUTS.size};
+  height: ${INPUTS.size};
   background: var(--dark-color);
   background: linear-gradient(
     345deg,

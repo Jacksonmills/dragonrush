@@ -6,23 +6,40 @@ import Header from '@/components/Header';
 import Layout from '@/components/Layout';
 import MaxWidthWrapper from '@/components/MaxWidthWrapper';
 import ComboList from '@/components/ComboList';
-import { GetStaticPaths, GetStaticProps } from 'next';
 import Footer from '@/components/Footer';
+import { trpc } from '@/utils/trpc';
+import { TAGS } from '@/constants';
 
-const Characters = () => {
+const CharacterPage = () => {
   const { query } = useRouter();
-  const { id } = query;
+  const tag = query.id;
+
+  if (!tag || typeof tag !== 'string' || !TAGS.includes(tag)) return (
+    <>
+      <h1>Invalid character tag.</h1>
+      <h2>Available tags:</h2>
+      <ul>
+        {TAGS.map((tag, idx) => (<li key={idx}>{tag}</li>))}
+      </ul>
+    </>
+  );
+
+  const { data: character, isLoading } = trpc.useQuery(["character.getByTag", { tag }]);
+
+  if (!character || isLoading) return <div>Loading...</div>;
+
+  console.log(character);
 
   return (
     <>
       <Header />
       <Layout>
         <ImageWrapper>
-          {/* <Image src={character.renderUrl} layout='fill' priority alt="" /> */}
+          <Image src={character.renderUrl} layout='fill' priority alt="" />
         </ImageWrapper>
         <MaxWidthWrapper>
-          {/* {combos.length > 0 && (<Heading>{character.character} Combos</Heading>)}
-          <ComboList combos={combos} /> */}
+          {character.combos.length > 0 && (<Heading>{character.name} Combos</Heading>)}
+          <ComboList combos={character.combos} />
         </MaxWidthWrapper>
       </Layout>
       <Footer />
@@ -52,4 +69,4 @@ const ImageWrapper = styled.div`
   }
 `;
 
-export default Characters;
+export default CharacterPage;

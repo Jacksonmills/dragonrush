@@ -6,6 +6,7 @@ import { NotationData } from "@/types";
 import Header from "@/components/Header";
 import Footer from "@/components/Footer";
 import Layout from "@/components/Layout";
+import Link from "next/link";
 
 const Home: NextPage = () => {
   const { data: characters, isLoading } = trpc.useQuery([
@@ -32,7 +33,7 @@ const Home: NextPage = () => {
           <link rel="icon" href="/favicon.ico" />
         </Head>
         <h1>Dragon Rush</h1>
-        {characters.map((character, idx) => (<CharacterName key={idx}>{character.name}</CharacterName>))}
+        {characters.map((character, idx) => (<CharacterName key={idx}><Link href={`/character/${character.tag}`}>{character.name}</Link></CharacterName>))}
 
         <div>
           <h2>Combos:</h2>
