@@ -51,7 +51,9 @@ model Combo {
     game   Game   @relation(fields: [gameId], references: [id])
     gameId String
 
-    @@unique([characterId, characterTag, gameId])
+    user   User?   @relation(fields: [userId], references: [id])
+    userId String?
+
     @@index([characterId, characterTag, gameId])
 }
 
@@ -90,6 +92,7 @@ model User {
     image         String?
     accounts      Account[]
     sessions      Session[]
+    combos        Combo[]
 }
 
 model VerificationToken {

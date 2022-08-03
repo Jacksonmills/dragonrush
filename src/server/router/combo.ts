@@ -28,6 +28,8 @@ export const comboRouter = createRouter()
   .mutation("create", {
     input: createComboValidator,
     async resolve({ input, ctx }) {
+      if (!ctx.session) throw new Error("Must be logged in to create combo.");
+      const userId = ctx.session.user?.id;
       return await ctx.prisma.combo.create({
         data: {
           notation: JSON.parse(input.notation) as NotationData,
@@ -41,6 +43,9 @@ export const comboRouter = createRouter()
           },
           character: {
             connect: { id: input.characterId, }
+          },
+          user: {
+            connect: { id: userId }
           }
         }
       });

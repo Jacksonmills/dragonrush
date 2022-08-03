@@ -9,6 +9,7 @@ import { zodResolver } from '@hookform/resolvers/zod';
 import { useRouter } from 'next/router';
 import SiteLayoutWrapper from '@/components/SiteLayoutWrapper';
 import { Character, Game } from '@prisma/client';
+import { useSession } from 'next-auth/react';
 
 type Notation = {
   steps: string[][];
