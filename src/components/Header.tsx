@@ -10,6 +10,7 @@ import Button from './Button';
 import CharacterSelect from './CharacterSelect';
 import AddCharacter from './AddCharacter';
 import { trpc } from '@/utils/trpc';
+import { PlusCircle } from 'react-feather';
 
 const Header = () => {
   const { data: characters, isLoading } = trpc.useQuery(["character.getAll"]);
@@ -27,7 +28,7 @@ const Header = () => {
       </Link>
       <NavControls>
         <Link href='/combo/create' passHref>
-          <Button>Create</Button>
+          <CreateComboButton>Create Combo <PlusCircle /></CreateComboButton>
         </Link>
         <CharacterSelect characters={characters} />
         {!loggedIn && (
@@ -154,6 +155,17 @@ const Logo = styled.a`
     @media (min-width: 768px) {
       display: inline-block;
     }
+  }
+`;
+
+const CreateComboButton = styled(Button)`
+  display: flex;
+  align-items: center;
+  gap: 12px;
+
+  svg {
+    width: 1em;
+    height: 1em;
   }
 `;
 
