@@ -2,17 +2,21 @@ import styled from 'styled-components';
 
 import ComboCard from './ComboCard';
 import { Combo } from '@prisma/client';
+import { trpc } from '@/utils/trpc';
 
-const ComboList = ({ randomCharacter, combos }: { randomCharacter?: string; combos: Combo[]; }) => {
+const ComboList = ({ randomCharacter }: { randomCharacter?: string; }) => {
+  const { data: combos, isLoading } = randomCharacter ? trpc.useQuery(["combo.getByTag", { tag: randomCharacter }]) : trpc.useQuery(["combo.getAll"]);
+  if (isLoading || !combos) return <div>Loading...</div>;
+  if (combos.length <= 0) return <div>No combos found!</div>;
+
   return (
     <ComboWrapper>
-      {combos &&
-        combos.map((combo) => (
-          <ComboCard
-            key={`${combo.id}`}
-            {...combo}
-          />
-        ))}
+      {combos?.map((combo: Combo) => (
+        <ComboCard
+          key={`${combo.id}`}
+          {...combo}
+        />
+      ))}
     </ComboWrapper>
   );
 };

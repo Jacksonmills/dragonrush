@@ -9,12 +9,16 @@ import { COLORS } from '@/constants';
 import Button from './Button';
 import CharacterSelect from './CharacterSelect';
 import AddCharacter from './AddCharacter';
+import { trpc } from '@/utils/trpc';
 
 const Header = () => {
+  const { data: characters, isLoading } = trpc.useQuery(["character.getAll"]);
   const { data: session, status } = useSession();
   const loggedIn = status === "authenticated";
   const isDev = process.env.NODE_ENV !== 'production';
   const userImage = session?.user?.image!;
+
+  if (isLoading || !characters) return <div>Loading...</div>;
 
   return (
     <Wrapper>
@@ -25,7 +29,7 @@ const Header = () => {
         {isDev && (
           <AddCharacter />
         )}
-        {/* <CharacterSelect characters={characters} /> */}
+        <CharacterSelect characters={characters} />
         {!loggedIn && (
           <UserAuth tabIndex={0} aria-label='user dropdown, opens dialog' aria-live='polite'>
             <Image src='https://abs.twimg.com/sticky/default_profile_images/default_profile_normal.png' width={42} height={42} layout='fixed' alt="" />

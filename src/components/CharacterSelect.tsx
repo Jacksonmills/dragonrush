@@ -117,6 +117,7 @@ const Modal = styled.div`
   min-width: 60vw;
   max-width: 90vw;
   border-radius: 4px;
+  box-shadow: rgba(0, 0, 0, 0.4) 0px 2px 4px, rgba(0, 0, 0, 0.3) 0px 7px 13px -3px, rgba(0, 0, 0, 0.2) 0px -4px 0px inset;
 `;
 
 const AnimatedDiv = styled(animated.div)`

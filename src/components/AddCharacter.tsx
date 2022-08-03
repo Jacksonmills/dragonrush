@@ -1,9 +1,7 @@
-import React, { useState, useEffect, FormEvent } from 'react';
+import React, { useState } from 'react';
 import { useSpring, animated } from 'react-spring';
 import { createPortal } from 'react-dom';
 import styled from 'styled-components';
-import Link from 'next/link';
-import Image from 'next/image';
 import { Minimize2 } from 'react-feather';
 
 import UnstyledButton from './UnstyledButton';
@@ -12,14 +10,13 @@ import { COLORS } from '@/constants';
 import { useSession } from 'next-auth/react';
 import { trpc } from '@/utils/trpc';
 import { Game } from '@prisma/client';
-import { useFieldArray, useForm } from 'react-hook-form';
+import { useForm } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { useRouter } from 'next/router';
 import { CreateCharacterInputType, createCharacterValidator } from '@/shared/create-character-validator';
 
 const AddCharacter = () => {
   const router = useRouter();
-  const { data: session, status } = useSession();
   const [isHovered, setIsHovered] = useState(false);
   const [showModal, setShowModal] = useState(false);
 
@@ -72,9 +69,9 @@ const AddCharacter = () => {
             <AddCharacterForm onSubmit={handleSubmit((data) => mutate(data))}>
               <AddCharacterLabel>
                 Game:
-                <select {...register("gameId")} name="gameId" required>
+                <AddCharacterSelect {...register("gameId")} name="gameId" required>
                   {games.map((game: Game, idx) => (<option key={idx} value={game.id}>{game.name}</option>))}
-                </select>
+                </AddCharacterSelect>
               </AddCharacterLabel>
               {errors?.gameId && (<Error>{errors.gameId.message}</Error>)}
               <AddCharacterLabel>
@@ -168,6 +165,10 @@ const AddCharacterInput = styled.input`
   }
 `;
 
+const AddCharacterSelect = styled.select`
+  padding: 1em;
+`;
+
 const AddCharacterLabel = styled.label`
   display: flex;
   flex-direction: column;
@@ -188,6 +189,7 @@ const Modal = styled.div`
   min-width: 60vw;
   max-width: 90vw;
   border-radius: 4px;
+  box-shadow: rgba(0, 0, 0, 0.4) 0px 2px 4px, rgba(0, 0, 0, 0.3) 0px 7px 13px -3px, rgba(0, 0, 0, 0.2) 0px -4px 0px inset;
 `;
 
 const AnimatedDiv = styled(animated.div)`
