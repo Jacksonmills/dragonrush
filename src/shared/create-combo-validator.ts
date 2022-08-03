@@ -1,9 +1,10 @@
 import { z } from "zod";
 
 export const createComboValidator = z.object({
-  notation: z.object({
-    steps: z.array(z.array(z.string())),
-  }),
+  // notation: z.object({
+  //   steps: z.array(z.array(z.string())),
+  // }),
+  notation: z.string(),
   damage: z.number().min(0).max(100),
   meterGain: z.number(),
   worksOn: z.string(),

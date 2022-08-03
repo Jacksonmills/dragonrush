@@ -1,12 +1,9 @@
 import styled from 'styled-components';
 import { useRouter } from 'next/router';
-
-import Header from '@/components/Header';
-import Layout from '@/components/Layout';
 import MaxWidthWrapper from '@/components/MaxWidthWrapper';
-import Footer from '@/components/Footer';
 import { trpc } from '@/utils/trpc';
 import ComboCard from '@/components/ComboCard';
+import SiteLayoutWrapper from '@/components/SiteLayoutWrapper';
 
 const ComboPage = () => {
   const { query } = useRouter();
@@ -21,18 +18,14 @@ const ComboPage = () => {
   console.log(combo);
 
   return (
-    <>
-      <Header />
-      <Layout>
-        <MaxWidthWrapper>
-          <ComboCard
-            key={`${combo.id}`}
-            {...combo}
-          />
-        </MaxWidthWrapper>
-      </Layout>
-      <Footer />
-    </>
+    <SiteLayoutWrapper>
+      <MaxWidthWrapper>
+        <ComboCard
+          key={`${combo.id}`}
+          {...combo}
+        />
+      </MaxWidthWrapper>
+    </SiteLayoutWrapper>
   );
 };
 

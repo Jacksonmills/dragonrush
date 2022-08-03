@@ -1,14 +1,11 @@
 import styled from 'styled-components';
 import { useRouter } from 'next/router';
 import Image from 'next/image';
-
-import Header from '@/components/Header';
-import Layout from '@/components/Layout';
 import MaxWidthWrapper from '@/components/MaxWidthWrapper';
 import ComboList from '@/components/ComboList';
-import Footer from '@/components/Footer';
 import { trpc } from '@/utils/trpc';
 import { TAGS } from '@/constants';
+import SiteLayoutWrapper from '@/components/SiteLayoutWrapper';
 
 const CharacterPage = () => {
   const { query } = useRouter();
@@ -31,19 +28,15 @@ const CharacterPage = () => {
   console.log(character);
 
   return (
-    <>
-      <Header />
-      <Layout>
-        <ImageWrapper>
-          <Image src={character.renderUrl} layout='fill' priority alt="" />
-        </ImageWrapper>
-        <MaxWidthWrapper>
-          {character.combos.length > 0 && (<Heading>{character.name} Combos</Heading>)}
-          <ComboList combos={character.combos} />
-        </MaxWidthWrapper>
-      </Layout>
-      <Footer />
-    </>
+    <SiteLayoutWrapper>
+      <ImageWrapper>
+        <Image src={character.renderUrl} layout='fill' priority alt="" />
+      </ImageWrapper>
+      <MaxWidthWrapper>
+        {character.combos.length > 0 && (<Heading>{character.name} Combos</Heading>)}
+        <ComboList combos={character.combos} />
+      </MaxWidthWrapper>
+    </SiteLayoutWrapper>
   );
 };
 

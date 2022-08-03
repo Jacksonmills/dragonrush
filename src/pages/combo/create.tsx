@@ -3,10 +3,73 @@ import MaxWidthWrapper from '@/components/MaxWidthWrapper';
 import { CreateComboInputType, createComboValidator } from '@/shared/create-combo-validator';
 import { trpc } from '@/utils/trpc';
 import React from 'react';
-import { useFieldArray, useForm } from "react-hook-form";
+import { useForm } from "react-hook-form";
 import styled from 'styled-components';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { useRouter } from 'next/router';
+import SiteLayoutWrapper from '@/components/SiteLayoutWrapper';
+
+type Notation = {
+  steps: string[][];
+};
+
+const newStepData = [
+  '214',
+  'S'
+];
+
+const stepsData = [
+  [
+    "2",
+    "M"
+  ],
+  [
+    "5",
+    "M"
+  ],
+  [
+    "jc.",
+    "M",
+    "L",
+    "L",
+    "2",
+    "H"
+  ],
+  [
+    "SD"
+  ],
+  [
+    "j.",
+    "M",
+    "L",
+    "L",
+    "2",
+    "H"
+  ],
+  [
+    "jc.",
+    "L",
+    "L",
+    "L"
+  ],
+  [
+    "236",
+    "H",
+    "S"
+  ]
+];
+
+const notationData: Notation = {
+  "steps": []
+};
+
+stepsData.push(newStepData);
+notationData.steps = stepsData;
+console.log(notationData);
+
+const Step = () => {
+  return;
+};
 
 const CreateComboForm = () => {
   const router = useRouter();
@@ -35,17 +98,26 @@ const CreateComboForm = () => {
       mutate(data);
     })}>
       <Label>
+        Notation:
+        <input
+          {...register("notation")}
+          type="text"
+        />
+      </Label>
+      {errors?.notation && (<Error>{errors.notation.message}</Error>)}
+      <Label>
         Damage:
         <input
-          {...register("damage")}
+          {...register("damage", { valueAsNumber: true })}
           type="number"
-          value={0}
+          min={0}
+          max={100}
+          step={1}
         />
       </Label>
       {errors?.damage && (<Error>{errors.damage.message}</Error>)}
       <Actions>
         <Submit type="submit" value="Create combo" />
-        <AddOption type="button" value="Add step" onClick={() => console.log("Adding step")} />
       </Actions>
     </Form>
   );
@@ -53,9 +125,11 @@ const CreateComboForm = () => {
 
 const ComboCreator: React.FC = () => {
   return (
-    <MaxWidthWrapper>
-      <CreateComboForm />
-    </MaxWidthWrapper>
+    <SiteLayoutWrapper>
+      <MaxWidthWrapper>
+        <CreateComboForm />
+      </MaxWidthWrapper>
+    </SiteLayoutWrapper>
   );
 };
 
