@@ -130,13 +130,17 @@ const AddCharacter = () => {
 
   return (
     <>
-      <Button onClick={() => setShowModal((state) => !state)}>
+      <StyledButton onClick={() => setShowModal((state) => !state)}>
         Add Character
-      </Button>
+      </StyledButton>
       {showModal && <AddCharacterModal />}
     </>
   );
 };
+
+const StyledButton = styled(Button)`
+  font-size: ${12 / 16}rem;
+`;
 
 const AddCharacterPortal = styled.div`
   position: fixed;

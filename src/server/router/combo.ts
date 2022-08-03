@@ -1,6 +1,7 @@
 import { createRouter } from "./context";
 import { z } from "zod";
 import { createComboValidator } from "@/shared/create-combo-validator";
+import { NotationData } from "@/types";
 
 export const comboRouter = createRouter()
   .query("getAll", {
@@ -29,7 +30,7 @@ export const comboRouter = createRouter()
     async resolve({ input, ctx }) {
       return await ctx.prisma.combo.create({
         data: {
-          notation: input.notation,
+          notation: JSON.parse(input.notation) as NotationData,
           damage: input.damage,
           meterGain: input.meterGain,
           worksOn: input.worksOn,

@@ -26,9 +26,9 @@ const Header = () => {
         <Logo><span>Combo</span>Z</Logo>
       </Link>
       <NavControls>
-        {isDev && (
-          <AddCharacter />
-        )}
+        <Link href='/combo/create' passHref>
+          <Button>Create</Button>
+        </Link>
         <CharacterSelect characters={characters} />
         {!loggedIn && (
           <UserAuth tabIndex={0} aria-label='user dropdown, opens dialog' aria-live='polite'>
@@ -107,6 +107,8 @@ const DropDown = styled.div`
     width: 100%;
   }
 `;
+
+const AdminWrapper = styled.div``;
 
 const NavControls = styled.nav`
   display: flex;

@@ -3,7 +3,7 @@ import styled from 'styled-components';
 export default styled.div`
   position: relative;
   min-height: 100%;
-  padding-top: 100px;
+  padding-top: 84px;
   background: hsl(0, 55%, 47%);
   background: linear-gradient(
     335deg,

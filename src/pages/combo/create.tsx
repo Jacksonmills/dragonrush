@@ -8,6 +8,7 @@ import styled from 'styled-components';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { useRouter } from 'next/router';
 import SiteLayoutWrapper from '@/components/SiteLayoutWrapper';
+import { Character, Game } from '@prisma/client';
 
 type Notation = {
   steps: string[][];
@@ -72,6 +73,8 @@ const Step = () => {
 };
 
 const CreateComboForm = () => {
+  const { data: games, isLoading: gamesLoading } = trpc.useQuery(["game.getAll"]);
+  const { data: characters, isLoading: charactersLoading } = trpc.useQuery(["character.getAll"]);
   const router = useRouter();
 
   const {
@@ -91,12 +94,24 @@ const CreateComboForm = () => {
     }
   });
 
-  if (isLoading || data) return <div>Loading...</div>;
+  if (isLoading || data || !games || !characters) return <div>Loading...</div>;
 
   return (
     <Form onSubmit={handleSubmit((data) => {
       mutate(data);
     })}>
+      <Label>
+        Game:
+        <select {...register("gameId")} name="gameId" required>
+          {games.map((game: Game, idx) => (<option key={idx} value={game.id}>{game.name}</option>))}
+        </select>
+      </Label>
+      <Label>
+        Character:
+        <select {...register("characterId")} name="characterId" required>
+          {characters.map((character: Character, idx) => (<option key={idx} value={character.id}>{character.name}</option>))}
+        </select>
+      </Label>
       <Label>
         Notation:
         <input
@@ -116,6 +131,38 @@ const CreateComboForm = () => {
         />
       </Label>
       {errors?.damage && (<Error>{errors.damage.message}</Error>)}
+      <Label>
+        Meter gain:
+        <input
+          {...register("meterGain", { valueAsNumber: true })}
+          type="number"
+        />
+      </Label>
+      {errors?.meterGain && (<Error>{errors.meterGain.message}</Error>)}
+      <Label>
+        Works on:
+        <input
+          {...register("worksOn")}
+          type="text"
+        />
+      </Label>
+      {errors?.worksOn && (<Error>{errors.worksOn.message}</Error>)}
+      <Label>
+        Difficulty:
+        <input
+          {...register("difficulty")}
+          type="text"
+        />
+      </Label>
+      {errors?.difficulty && (<Error>{errors.difficulty.message}</Error>)}
+      <Label>
+        Notes:
+        <input
+          {...register("notes")}
+          type="text"
+        />
+      </Label>
+      {errors?.notes && (<Error>{errors.notes.message}</Error>)}
       <Actions>
         <Submit type="submit" value="Create combo" />
       </Actions>
