@@ -34,7 +34,7 @@ const CharacterPage = () => {
       </ImageWrapper>
       <MaxWidthWrapper>
         {character.combos.length > 0 && (<Heading>{character.name} Combos</Heading>)}
-        <ComboList combos={character.combos} />
+        <ComboList characterTag={character.tag} />
       </MaxWidthWrapper>
     </SiteLayoutWrapper>
   );

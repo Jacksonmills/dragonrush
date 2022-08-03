@@ -4,8 +4,8 @@ import ComboCard from './ComboCard';
 import { Combo } from '@prisma/client';
 import { trpc } from '@/utils/trpc';
 
-const ComboList = ({ randomCharacter }: { randomCharacter?: string; }) => {
-  const { data: combos, isLoading } = randomCharacter ? trpc.useQuery(["combo.getByTag", { tag: randomCharacter }]) : trpc.useQuery(["combo.getAll"]);
+const ComboList = ({ characterTag }: { characterTag?: string; }) => {
+  const { data: combos, isLoading } = characterTag ? trpc.useQuery(["combo.getByTag", { tag: characterTag }]) : trpc.useQuery(["combo.getAll"]);
   if (isLoading || !combos) return <div>Loading...</div>;
   if (combos.length <= 0) return <div>No combos found!</div>;
 
