@@ -7,7 +7,7 @@ const Footer = () => {
   return (
     <Wrapper>
       <Links>
-        <Link href='https://github.com/Jacksonmills/combo-z'>
+        <Link href='https://github.com/Jacksonmills/dragonrush'>
           <a>
             <GitHub />
           </a>
