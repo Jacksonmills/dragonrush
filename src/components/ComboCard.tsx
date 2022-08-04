@@ -6,6 +6,7 @@ import { Play, Edit, Twitter, ChevronRight } from 'react-feather';
 import ComboStep from './ComboStep';
 import { Combo } from '@prisma/client';
 import { NotationData } from '@/types';
+import Link from 'next/link';
 
 const ComboCard = (props: Combo) => {
   const notation = props.notation as NotationData;
@@ -37,12 +38,12 @@ const ComboCard = (props: Combo) => {
             <Play />
           </ControlButton>
 
-          <ControlButton
-            type='button'
-            onClick={() => console.log('Adding step')}
+          <Link
+            href={`/combo/${props.id}`}
+            passHref
           >
-            <Edit />
-          </ControlButton>
+            <EditLink><Edit /></EditLink>
+          </Link>
         </ComboMenu>
       </Controls>
       <StepsWrapper>
@@ -104,6 +105,22 @@ const Info = styled.div`
 `;
 
 const ControlButton = styled.button`
+  display: inline-flex;
+  color: white;
+  font-weight: bold;
+  padding: 4px;
+  border-radius: 4px;
+  border: none;
+  background-color: none;
+  background: none;
+  cursor: pointer;
+
+  &:hover {
+    background-color: ${COLORS.gray[900]};
+  }
+`;
+
+const EditLink = styled.a`
   display: inline-flex;
   color: white;
   font-weight: bold;
