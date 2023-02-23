@@ -1,12 +1,14 @@
 import styled from 'styled-components';
 
 import { COLORS } from '@/constants';
-import { Play, Edit, Twitter, ChevronRight } from 'react-feather';
+import { Play, ExternalLink, Twitter, ChevronRight, Edit } from 'react-feather';
 
 import ComboStep from './ComboStep';
 import { Combo } from '@prisma/client';
 import { NotationData } from '@/types';
 import Link from 'next/link';
+import Image from 'next/image';
+import Button from './Button';
 
 const ComboCard = (props: Combo) => {
   const notation = props.notation as NotationData;
@@ -25,6 +27,10 @@ const ComboCard = (props: Combo) => {
     console.log('Playing Combo...');
   };
 
+  const handleEditCombo = () => {
+    console.log('Editing Combo...');
+  };
+
   return (
     <Wrapper>
       <Controls>
@@ -32,18 +38,26 @@ const ComboCard = (props: Combo) => {
           <ControlButton as='a' href={tagUrl} target='_blank'>
             <Twitter />
           </ControlButton>
+          <Link
+            href={`/combo/${props.id}`}
+            passHref
+          >
+            <PageLink><ExternalLink /></PageLink>
+          </Link>
+          <Link
+            href={`/character/${props.characterTag}`}
+            passHref
+          >
+            <PageLink as='a'>{props.characterTag}</PageLink>
+          </Link>
         </Social>
         <ComboMenu>
           <ControlButton onClick={handlePlayCombo}>
             <Play />
           </ControlButton>
-
-          <Link
-            href={`/combo/${props.id}`}
-            passHref
-          >
-            <EditLink><Edit /></EditLink>
-          </Link>
+          <ControlButton onClick={handleEditCombo}>
+            <Edit />
+          </ControlButton>
         </ComboMenu>
       </Controls>
       <StepsWrapper>
@@ -62,6 +76,11 @@ const ComboCard = (props: Combo) => {
 };
 
 const Wrapper = styled.div``;
+
+const CharacterPageLink = styled(Button)`
+  padding: 4px 8px;
+  font-size: ${12 / 16}rem;
+`;
 
 const ComboStepWrapper = styled.div`
   display: flex;
@@ -120,9 +139,12 @@ const ControlButton = styled.button`
   }
 `;
 
-const EditLink = styled.a`
+const PageLink = styled.a`
   display: inline-flex;
+  align-items: center;
+  justify-content: center;
   color: white;
+  font-size: ${14 / 16}rem;
   font-weight: bold;
   padding: 4px;
   border-radius: 4px;
@@ -130,6 +152,7 @@ const EditLink = styled.a`
   background-color: none;
   background: none;
   cursor: pointer;
+  text-decoration: none;
 
   &:hover {
     background-color: ${COLORS.gray[900]};

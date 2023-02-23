@@ -10,68 +10,46 @@ import { useRouter } from 'next/router';
 import SiteLayoutWrapper from '@/components/SiteLayoutWrapper';
 import { Character, Game } from '@prisma/client';
 import { useSession } from 'next-auth/react';
-
-type Notation = {
-  steps: string[][];
-};
+import { NotationData } from '@/types';
+import StylizedHeading from '@/components/StylizedHeading';
 
 const newStepData = [
   '214',
   'S'
 ];
 
-const stepsData = [
-  [
-    "2",
-    "M"
-  ],
-  [
-    "5",
-    "M"
-  ],
-  [
-    "jc.",
-    "M",
-    "L",
-    "L",
-    "2",
-    "H"
-  ],
-  [
-    "SD"
-  ],
-  [
-    "j.",
-    "M",
-    "L",
-    "L",
-    "2",
-    "H"
-  ],
-  [
-    "jc.",
-    "L",
-    "L",
-    "L"
-  ],
-  [
-    "236",
-    "H",
-    "S"
+const stepsData = {
+  "steps": [
+    ["2", "M"],
+    ["5", "M"],
+    ["5", "S"],
+    ["SD", "66"],
+    ["j", "M"],
+    ["j", "2", "H"],
+    ["land", "66"],
+    ["5", "M"],
+    ["jc", "j", "M"],
+    ["j", "L", "j", "L"],
+    ["j", "S"],
+    ["236", "S"],
+    ["SD", "j", "S"],
+    ["214", "M", "~", "M"],
+    ["236", "L", "M"]
   ]
-];
+};
 
-const notationData: Notation = {
+const notationData: NotationData = {
   "steps": []
 };
 
-stepsData.push(newStepData);
-notationData.steps = stepsData;
-console.log(notationData);
+// stepsData.push(newStepData);
+// notationData.steps = stepsData;
+// notationData.steps.push(newStepData);
+// console.log(notationData);
 
-const Step = () => {
-  return;
-};
+// const Step = () => {
+//   return;
+// };
 
 const CreateComboForm = () => {
   const { data: games, isLoading: gamesLoading } = trpc.useQuery(["game.getAll"]);
@@ -118,6 +96,7 @@ const CreateComboForm = () => {
         <input
           {...register("notation")}
           type="text"
+          placeholder='{"steps":[["2","M"], ["5", "M"], ...]}'
         />
       </Label>
       {errors?.notation && (<Error>{errors.notation.message}</Error>)}
@@ -175,6 +154,7 @@ const ComboCreator: React.FC = () => {
   return (
     <SiteLayoutWrapper>
       <MaxWidthWrapper>
+        <StylizedHeading fontSize={84}>Create Combo</StylizedHeading>
         <CreateComboForm />
       </MaxWidthWrapper>
     </SiteLayoutWrapper>
@@ -202,7 +182,7 @@ const Submit = styled.input`
 `;
 
 const AddOption = styled.input`
-  display block;
+  display: block;
 `;
 
 const Error = styled.p`

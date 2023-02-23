@@ -6,10 +6,12 @@ import ComboList from "@/components/ComboList";
 import MaxWidthWrapper from "@/components/MaxWidthWrapper";
 import VisuallyHidden from "@/components/VisuallyHidden";
 import SiteLayoutWrapper from "@/components/SiteLayoutWrapper";
-import { PlusCircle } from "react-feather";
+import { PlusCircle, Tool } from "react-feather";
 import Link from "next/link";
 import Button from "@/components/Button";
 import { COLORS } from "@/constants";
+import StylizedHeading from "@/components/StylizedHeading";
+import CreateComboButton from "@/components/CreateComboButton";
 
 const Home: NextPage = () => {
   const { data: session, status } = useSession();
@@ -25,18 +27,20 @@ const Home: NextPage = () => {
     <SiteLayoutWrapper>
       <MaxWidthWrapper>
         <VisuallyHidden as="h1">ComboZ</VisuallyHidden>
-        <WelcomeMessage>
-          Welcome{' '}
-          {loggedIn
-            ? `${session?.user?.name}, lets build a combo!`
-            : 'to ComboZ'}
-        </WelcomeMessage>
-        <p>Build and share combos!</p>
-        <div>
-          <Link href='/combo/create' passHref>
-            <CreateComboButton>Create Combo <PlusCircle /></CreateComboButton>
-          </Link>
-        </div>
+        <WelcomeWrapper>
+          <WelcomeMessage>
+            <StylizedHeading fontSize={84}>
+              {loggedIn
+                ? `Welcome ${session?.user?.name}, lets build a combo!`
+                : 'Build and share combos!'}
+            </StylizedHeading>
+          </WelcomeMessage>
+          <WelcomeActions>
+            <Link href='/combo/create' passHref>
+              <HeroButton>Build <Tool /></HeroButton>
+            </Link>
+          </WelcomeActions>
+        </WelcomeWrapper>
         <ComboList />
       </MaxWidthWrapper>
     </SiteLayoutWrapper>
@@ -45,27 +49,32 @@ const Home: NextPage = () => {
 
 const Wrapper = styled.div``;
 
-const WelcomeMessage = styled.h2`
-  font-size: ${32 / 16}rem;
+const WelcomeWrapper = styled.div`
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 48px;
+  padding: 60px 0;
+
+  @media (min-width: 768px) {
+    padding: 120px 60px;
+  }
 `;
 
-const CreateComboButton = styled(Button)`
+const WelcomeMessage = styled.div``;
+const WelcomeActions = styled.div`
   display: flex;
-  align-items: center;
-  gap: 12px;
-  border-radius: 50px;
-  background-color: ${COLORS.secondary};
-  color: ${COLORS.white};
+  flex-grow: 1
+`;
 
-  &:hover {
-    filter: brightness(1.4);
-    background-color: ${COLORS.secondary};
-  }
-
-  svg {
-    width: 1.2em;
-    height: 1.2em;
-  }
+const HeroButton = styled(Button)`
+  --foreground-color: ${COLORS.white};
+  --background-color: ${COLORS.secondary};
+  --hover-color: #8b0007;
+  padding: 16px 24px;
+  font-size: ${32 / 16}rem;
+  gap: 16px;
 `;
 
 export default Home;

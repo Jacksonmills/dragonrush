@@ -43,6 +43,7 @@ model Combo {
     worksOn    String?
     difficulty String?
     notes      String?  @db.VarChar(255)
+    // data ComboData[]
 
     character    Character @relation(fields: [characterId, characterTag], references: [id, tag])
     characterId  String
@@ -56,6 +57,16 @@ model Combo {
 
     @@index([characterId, characterTag, gameId])
 }
+
+// abstract combo data for versioning
+// model ComboData {
+//     notation   Json
+//     damage     Int?
+//     meterGain  Decimal? @db.Decimal(10, 1)
+//     worksOn    String?
+//     difficulty String?
+//     notes      String?  @db.VarChar(255)
+// }
 
 // Necessary for Next auth
 model Account {

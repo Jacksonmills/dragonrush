@@ -41,10 +41,8 @@ const AdminNav = styled.div`
   display: flex;
   align-items: center;
   background-color: ${COLORS.secondary};
-  border-bottom: 4px solid black;
-  color: white;
-  padding: 1em;
-  margin-bottom: 0.25em;
+  color: ${COLORS.white};
+  padding: 6px 24px;
 `;
 
 export default SiteLayoutWrapper;

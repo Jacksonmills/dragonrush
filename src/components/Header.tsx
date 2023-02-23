@@ -10,7 +10,10 @@ import Button from './Button';
 import CharacterSelect from './CharacterSelect';
 import AddCharacter from './AddCharacter';
 import { trpc } from '@/utils/trpc';
-import { PlusCircle } from 'react-feather';
+import { PlusCircle, Tool } from 'react-feather';
+import Logo from './Logo';
+import CreateComboButton from './CreateComboButton';
+import UnstyledButton from './UnstyledButton';
 
 const Header = () => {
   const { data: characters, isLoading } = trpc.useQuery(["character.getAll"]);
@@ -24,13 +27,17 @@ const Header = () => {
   return (
     <Wrapper>
       <Link href='/'>
-        <Logo><span>Combo</span>Z</Logo>
+        <Logo fontSize={48} color={COLORS.black}><span>Combo</span>Z</Logo>
       </Link>
       <NavControls>
         <Link href='/combo/create' passHref>
-          <CreateComboButton>Create Combo <PlusCircle /></CreateComboButton>
+          <LinkWrapper>
+            <Button>Build <Tool /></Button>
+          </LinkWrapper>
         </Link>
-        <CharacterSelect characters={characters} />
+        <LinkWrapper>
+          <CharacterSelect characters={characters} />
+        </LinkWrapper>
         {!loggedIn && (
           <UserAuth tabIndex={0} aria-label='user dropdown, opens dialog' aria-live='polite'>
             <Image src='https://abs.twimg.com/sticky/default_profile_images/default_profile_normal.png' width={42} height={42} layout='fixed' alt="" />
@@ -141,32 +148,10 @@ const UserAuth = styled.div`
   }
 `;
 
-const Logo = styled.a`
-  font-size: ${55 / 16}rem;
-  letter-spacing: 2px;
-  font-family: 'Sayian Sans';
-  color: black;
-  margin-right: auto;
-  cursor: pointer;
-
-  span {
-    font-family: 'Sayian Sans';
-    display: none;
-    @media (min-width: 768px) {
-      display: inline-block;
-    }
-  }
-`;
-
-const CreateComboButton = styled(Button)`
+const LinkWrapper = styled.div`
   display: flex;
+  gap: 10px;
   align-items: center;
-  gap: 12px;
-
-  svg {
-    width: 1em;
-    height: 1em;
-  }
 `;
 
 export default Header;

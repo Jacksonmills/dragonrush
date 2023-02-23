@@ -7,7 +7,9 @@ import Modifier from './Modifier';
 // import Loop from './Loop';
 // import MultiHit from './MultiHit';
 
-const Input = ({ input }: { input: string | number; }) => {
+const directions = ["1", "2", "3", "4", "5", "6", "7", "8", "9", "236", "214"];
+
+const Input = ({ input }: { input: string; }) => {
   function handleInputs() {
     if (
       input === 'L' ||
@@ -18,8 +20,8 @@ const Input = ({ input }: { input: string | number; }) => {
       input === 'A2'
     ) {
       return <Attack button={input} />;
-    } else if (input > 0) {
-      return <Dpad direction={input as number} />;
+    } else if (directions.includes(input)) {
+      return <Dpad direction={input} />;
     } else if (
       input === 'j.' ||
       input === 'sj.' ||

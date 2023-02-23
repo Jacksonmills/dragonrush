@@ -2,7 +2,7 @@ import styled from 'styled-components';
 
 import Image from 'next/image';
 
-const Dpad = ({ direction }: { direction: number; }) => {
+const Dpad = ({ direction }: { direction: string; }) => {
   const src = `/images/dpad/${direction}.png`;
   return (
     <Wrapper tabIndex={0}>

@@ -6,6 +6,7 @@ import ComboList from '@/components/ComboList';
 import { trpc } from '@/utils/trpc';
 import { TAGS } from '@/constants';
 import SiteLayoutWrapper from '@/components/SiteLayoutWrapper';
+import StylizedHeading from '@/components/StylizedHeading';
 
 const CharacterPage = () => {
   const { query } = useRouter();
@@ -33,16 +34,15 @@ const CharacterPage = () => {
         <Image src={character.renderUrl} layout='fill' priority alt="" />
       </ImageWrapper>
       <MaxWidthWrapper>
-        {character.combos.length > 0 && (<Heading>{character.name} Combos</Heading>)}
+        {character.combos.length > 0 && (<Heading fontSize={84}>{character.name} Combos</Heading>)}
         <ComboList characterTag={character.tag} />
       </MaxWidthWrapper>
     </SiteLayoutWrapper>
   );
 };
 
-const Heading = styled.h1`
+const Heading = styled(StylizedHeading)`
   position: relative;
-  font-size: ${44 / 16}rem;
 `;
 
 const ImageWrapper = styled.div`

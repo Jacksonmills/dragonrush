@@ -11,6 +11,7 @@ export const COLORS = {
   },
   primary: 'hsl(44, 33%, 87%)',
   secondary: 'hsl(357, 78%, 55%)',
+  primaryGradient: `linear-gradient(45deg, hsl(252deg 97% 56%) 0%, hsl(337deg 100% 50%) 50%, hsl(50deg 100% 49%) 100%)`
 };
 
 export const INPUTS = {
