@@ -4,7 +4,7 @@ import Image from 'next/image';
 
 import Input from './Input';
 
-const ComboStep = ({ inputs, sparking }: { inputs: (string | number)[]; sparking: boolean; }) => {
+const ComboStep = ({ inputs, sparking }: { inputs: string[]; sparking: boolean; }) => {
   return (
     <>
       <Wrapper
