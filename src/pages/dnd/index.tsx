@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { DndContext, DragEndEvent } from '@dnd-kit/core';
+import { DndContext, DragEndEvent, UniqueIdentifier } from '@dnd-kit/core';
 import Draggable from '@/components/Draggable';
 import Droppable from '@/components/Droppable';
 import styled from 'styled-components';
@@ -16,8 +16,12 @@ export default function DndPage() {
   const tools = ['tool-0', 'tool-1'];
   const [droppables, setDroppables] = useState<DroppableProps[]>([
     {
-      dropId: 0,
-      draggableIds: [],
+      dropId: 0, // unique id of droppable step
+      draggableIds: [], // copies of the tools with new unique ids go here
+    },
+    {
+      dropId: 1, // unique id of droppable step
+      draggableIds: [], // copies of the tools with new unique ids go here
     }
   ]);
 
@@ -44,12 +48,23 @@ export default function DndPage() {
                   </Step>
                 </Droppable>
               ))}
+              <button onClick={addStep}>Add Step</button>
             </ComboBoard>
           </Wrapper>
         </DndContext>
       </MaxWidthWrapper>
     </SiteLayoutWrapper >
   );
+
+  function addStep() {
+    setDroppables((droppables) => [
+      ...droppables,
+      {
+        dropId: Math.random().toString(36).substr(2, 9),
+        draggableIds: [],
+      },
+    ]);
+  }
 
   function handleDragEnd(event: DragEndEvent) {
     const { over, active } = event;
