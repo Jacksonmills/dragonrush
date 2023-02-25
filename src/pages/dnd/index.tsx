@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import { v4 } from 'uuid';
 import { DndContext, DragEndEvent, UniqueIdentifier } from '@dnd-kit/core';
 import Draggable from '@/components/Draggable';
 import Droppable from '@/components/Droppable';
@@ -28,7 +29,7 @@ export default function DndPage() {
   return (
     <SiteLayoutWrapper>
       <MaxWidthWrapper>
-        <DndContext onDragEnd={handleDragEnd}>
+        <DndContext id="0" onDragEnd={handleDragEnd}>
           <Wrapper>
             <Toolbox>
               {tools.map((tool) => (
@@ -69,19 +70,27 @@ export default function DndPage() {
   function handleDragEnd(event: DragEndEvent) {
     const { over, active } = event;
 
-    // If the item is dropped over a container, set it as the parent
-    setDroppables((current) => {
-      if (over && active) {
-        return [
-          ...current,
-          {
-            dropId: active.id,
-            draggableIds: [...current[active.id].draggableIds, crypto.randomUUID()],
-          },
-        ];
+    // If the item is dropped over a container
+    setDroppables((prevDroppables) => {
+      if (over) {
+        const newDroppables = prevDroppables.map((droppable) => {
+          console.log(active.id);
+          if (droppable.dropId === over.id && !droppable.draggableIds.includes(`${active.id}`)) {
+            droppable.draggableIds.push(v4());
+          }
+          return droppable;
+        });
+
+        return newDroppables;
+
+        // const index = over.id as number;
+        // const dropId = prevDroppables[index]?.dropId;
+        // const draggableIds = prevDroppables[index]?.draggableIds;
+        // draggableIds?.push(v4());
+        // return [...prevDroppables, { dropId, draggableIds }];
       }
 
-      return [...current];
+      return prevDroppables;
     });
   }
 };
