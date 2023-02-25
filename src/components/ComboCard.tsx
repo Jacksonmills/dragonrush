@@ -9,6 +9,7 @@ import { NotationData } from '@/types';
 import Link from 'next/link';
 import Image from 'next/image';
 import Button from './Button';
+import Card from './Card';
 
 const ComboCard = (props: Combo) => {
   const notation = props.notation as NotationData;
@@ -60,9 +61,9 @@ const ComboCard = (props: Combo) => {
           </ControlButton>
         </ComboMenu>
       </Controls>
-      <StepsWrapper>
+      <Card>
         {steps}
-      </StepsWrapper>
+      </Card>
       <Information>
         <Info>
           {props.worksOn && <Location>Works on: {props.worksOn}</Location>}
@@ -182,23 +183,6 @@ const Information = styled.div`
 
   @media (min-width: 768px) {
     margin-top: 4px;
-  }
-`;
-
-const StepsWrapper = styled.ul`
-  display: flex;
-  align-items: center;
-  grid-gap: 8px;
-  /* margin-top: 10px; */
-  flex-direction: row;
-  flex-wrap: wrap;
-  background-color: ${COLORS.white};
-  padding: 1em 1.5em;
-  border: 4px solid black;
-
-  @media (min-width: 768px) {
-    padding: 2em 3em;
-    box-shadow: -8px 8px 0px 0px black;
   }
 `;
 

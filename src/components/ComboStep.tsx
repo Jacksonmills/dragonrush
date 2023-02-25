@@ -3,11 +3,20 @@ import styled from 'styled-components';
 import Image from 'next/image';
 
 import Input from './Input';
+import { COLORS } from '@/constants';
 
-const ComboStep = ({ inputs, sparking }: { inputs: string[]; sparking: boolean; }) => {
+const ComboStep = ({
+  inputs,
+  sparking = false,
+  isEditMode = false }: {
+    inputs: string[];
+    sparking?: boolean;
+    isEditMode?: boolean;
+  }) => {
   return (
     <>
       <Wrapper
+        isEditMode={isEditMode}
         sparking={sparking}
         style={{
           ['--background-color' as any]: `${sparking ? '#ff9dad' : 'hsla(0, 0%, 0%, 0.25)'}`,
@@ -25,7 +34,10 @@ const ComboStep = ({ inputs, sparking }: { inputs: string[]; sparking: boolean; 
   );
 };
 
-const Wrapper = styled.li<{ sparking: boolean; }>`
+const Wrapper = styled.div<{
+  isEditMode: boolean;
+  sparking: boolean;
+}>`
   position: relative;
   display: flex;
   flex-direction: row;
@@ -38,6 +50,7 @@ const Wrapper = styled.li<{ sparking: boolean; }>`
     var(--background-color) 0%,
     hsl(0, 0%, 100%) 90%
   );
+  border: ${props => props.isEditMode ? `2px dashed ${COLORS.gray[500]}` : undefined};
   border-radius: 12px;
   padding: 4px 8px;
 
