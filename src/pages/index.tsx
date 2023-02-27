@@ -36,7 +36,7 @@ const Home: NextPage = () => {
             </StylizedHeading>
           </WelcomeMessage>
           <WelcomeActions>
-            <Link href='/combo/create' passHref>
+            <Link href='/dnd' passHref>
               <HeroButton>Build <Tool /></HeroButton>
             </Link>
           </WelcomeActions>
