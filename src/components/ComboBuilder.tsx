@@ -9,17 +9,19 @@ import { DndContext, DragEndEvent, KeyboardSensor, PointerSensor, UniqueIdentifi
 import Draggable from './Draggable';
 import Input from './Input';
 import { SortableContext, arrayMove, horizontalListSortingStrategy, sortableKeyboardCoordinates } from '@dnd-kit/sortable';
-import SortableItem from './SortableItem';
+import SortableItem from './Sortable';
 import ComboStep from './ComboStep';
 
 export type DndProps = {
   children: React.ReactNode,
   id: UniqueIdentifier,
+  handle?: boolean,
   type?: DndTypes,
-  types?: DndTypes[],
+  accepts?: DndTypes[],
+  payload?: any,
 };
 
-export type DndTypes = 'COMBO_INPUT' | 'COMBO_STEP' | 'COMBO_FORM';
+export type DndTypes = 'TOOL' | 'INPUT' | 'STEP' | 'BOARD';
 
 type SortableSteps = {
   steps: Steps;
