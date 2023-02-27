@@ -76,16 +76,16 @@ function ComboBuilder() {
       <Wrapper>
         {/* <StyledToolbox /> */}
         <TestWrapper>
-          <Draggable id="toolbox-attack-light" types={["COMBO_STEP"]}><Input input="L" /></Draggable>
+          <Draggable id="toolbox-attack-light"><Input input="L" /></Draggable>
         </TestWrapper>
         <Combo>
-          <Droppable id="combo-builder-combo-board" type="COMBO_FORM">
+          <Droppable id="combo-builder-combo-board">
             <SortableContext items={items} strategy={horizontalListSortingStrategy}>
               {items.map((item, index) => (
                 <ComboStepBox key={index}>
-                  <SortableItem id={item} types={["COMBO_FORM"]}>
-                    <Droppable id={item} type="COMBO_STEP">
-                      <Draggable id={`${item}-toolbox-attack-light`} types={["COMBO_STEP"]}><Input input="L" /></Draggable>
+                  <SortableItem id={item}>
+                    <Droppable id={item}>
+                      <Draggable id={`${item}-toolbox-attack-light`}><Input input="L" /></Draggable>
                     </Droppable>
                   </SortableItem>
                 </ComboStepBox>
