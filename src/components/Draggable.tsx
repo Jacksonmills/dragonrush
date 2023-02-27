@@ -32,7 +32,7 @@ const Wrapper = styled.div<{
 }>`
   position: relative;
   transform: ${props => props.transform && `translate3d(${props.transform.x}px, ${props.transform.y}px, 0)`};
-  z-index: 9999;
+  z-index: 99;
   cursor: ${props => (props.isDragging ? 'grabbing' : 'grab')};
 `;
 

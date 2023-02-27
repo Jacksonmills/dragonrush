@@ -22,8 +22,8 @@ const Wrapper = styled.div`
   font-weight: 500;
   text-align: center;
   color: ${COLORS.white};
-  width: ${INPUTS.size};
-  height: ${INPUTS.size};
+  width: ${INPUTS.size / 16}rem;
+  height: ${INPUTS.size / 16}rem;
   background: var(--dark-color);
   background: linear-gradient(345deg, var(--dark-color) 20%, var(--light-color) 70%);
   box-shadow: 0px 0.5px 2px 0.5px var(--dark-color), 0px -0.5px 2px 0.5px var(--light-color),

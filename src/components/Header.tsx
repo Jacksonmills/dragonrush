@@ -72,7 +72,7 @@ const Wrapper = styled.header`
   display: flex;
   align-items: center;
   padding: 0 24px;
-  z-index: 99;
+  z-index: 9999;
 `;
 
 const DropDown = styled.div`

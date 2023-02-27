@@ -38,8 +38,8 @@ const Theme = styled.div`
   font-weight: 500;
   text-align: center;
   color: ${COLORS.white};
-  width: ${INPUTS.size};
-  height: ${INPUTS.size};
+  width: ${INPUTS.size / 16}rem;
+  height: ${INPUTS.size / 16}rem;
   background: var(--dark-color);
   background: linear-gradient(
     345deg,

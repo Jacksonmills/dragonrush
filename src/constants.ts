@@ -15,7 +15,7 @@ export const COLORS = {
 };
 
 export const INPUTS = {
-  size: `${32 / 16}rem`,
+  size: 32,
   attacks: [
     'L',
     'M',

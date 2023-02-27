@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { v4 as uuid } from 'uuid';
-import { DndContext, DragEndEvent, UniqueIdentifier } from '@dnd-kit/core';
+import { DndContext, DragEndEvent, KeyboardSensor, PointerSensor, TouchSensor, UniqueIdentifier, closestCenter, useSensor, useSensors } from '@dnd-kit/core';
 import Draggable from '@/components/Draggable';
 import Droppable from '@/components/Droppable';
 import styled from 'styled-components';
@@ -9,10 +9,10 @@ import SiteLayoutWrapper from '@/components/SiteLayoutWrapper';
 import MaxWidthWrapper from '@/components/MaxWidthWrapper';
 import Button from '@/components/Button';
 import Input from '@/components/Input';
-import { SortableContext, arrayMove } from '@dnd-kit/sortable';
+import { SortableContext, arrayMove, horizontalListSortingStrategy, rectSwappingStrategy, sortableKeyboardCoordinates } from '@dnd-kit/sortable';
 import Sortable from '@/components/Sortable';
 import { COLORS, INPUTS } from '@/constants';
-import { X } from 'react-feather';
+import { ChevronRight, X } from 'react-feather';
 import UnstyledButton from '@/components/UnstyledButton';
 
 type DroppableProps = {
@@ -49,11 +49,22 @@ export default function DndPage() {
       draggableIds: [], // copies of the tools with new unique ids go here
     },
   ]);
+  const sensors = useSensors(
+    useSensor(PointerSensor),
+    useSensor(KeyboardSensor, {
+      coordinateGetter: sortableKeyboardCoordinates,
+    }),
+    useSensor(TouchSensor)
+  );
 
   return (
     <SiteLayoutWrapper>
       <MaxWidthWrapper>
-        <DndContext id="0-dnd" onDragEnd={handleDragEnd}>
+        <DndContext
+          id="0-dnd"
+          sensors={sensors}
+          onDragEnd={handleDragEnd}
+        >
           <Wrapper>
             <Toolbox>
               {tools.map(({ draggableId, payload }) => (
@@ -63,22 +74,26 @@ export default function DndPage() {
               ))}
             </Toolbox>
             <ComboBoard>
-              <SortableContext items={droppables.map(d => d.dropId)}>
+              <SortableContext items={droppables.map(d => d.dropId)} strategy={rectSwappingStrategy}>
                 <ComboString>
                   {droppables.map(({ dropId, draggableIds }) => (
                     <Sortable key={dropId} id={dropId} handle={true}>
-                      <SortableContext items={draggableIds.map(d => d.draggableId)}>
+                      <SortableContext items={draggableIds.map(d => d.draggableId)} strategy={rectSwappingStrategy}>
                         <Droppable id={dropId} accepts={["TOOL", "INPUT"]}>
-                          <Step>
-                            {draggableIds.map(({ draggableId, payload }) => (
-                              <Sortable key={draggableId} id={draggableId}>
-                                <Draggable id={draggableId} payload={payload} type="INPUT">
-                                  <Input input={payload} />
-                                </Draggable>
-                              </Sortable>
-                            ))}
-                            <RemoveStepButton onClick={() => removeStep(dropId)}><X /></RemoveStepButton>
-                          </Step>
+                          <StepWrapper>
+                            <Step>
+                              {draggableIds.map(({ draggableId, payload }) => (
+                                <Sortable key={draggableId} id={draggableId}>
+                                  <Draggable id={draggableId} payload={payload} type="INPUT">
+                                    <Input input={payload} />
+                                  </Draggable>
+                                </Sortable>
+                              ))}
+                              {(draggableIds[draggableIds.length - 1] || draggableIds.length <= 0) && (<Placeholder />)}
+                              <RemoveStepButton onClick={() => removeStep(dropId)}><X /></RemoveStepButton>
+                            </Step>
+                            <ChevronRight />
+                          </StepWrapper>
                         </Droppable>
                       </SortableContext>
                     </Sortable>
@@ -104,6 +119,7 @@ export default function DndPage() {
   }
 
   function removeStep(id: UniqueIdentifier) {
+    console.log(`removed: ${id}`);
     setDroppables((droppables) => {
       return droppables.filter(({ dropId }) => dropId !== id);
     });
@@ -112,13 +128,28 @@ export default function DndPage() {
   function handleDragEnd(event: DragEndEvent) {
     const { over, active, activatorEvent } = event;
     if (!over || !active) return;
-    console.log(activatorEvent);
+
     // Sorting combo steps
     if (active.data.current?.type !== "INPUT" && active.data.current?.type !== "TOOL") {
       setDroppables((prevDroppables) => {
         const oldIndex = prevDroppables.findIndex(d => d.dropId === active.id);
         const newIndex = prevDroppables.findIndex(d => d.dropId === over.id);
         return arrayMove(prevDroppables, oldIndex, newIndex);
+      });
+    }
+
+    // Sorting step inputs
+    if (active.data.current?.type === "INPUT" && active.data.current?.type !== "TOOL") {
+      setDroppables((prevDroppables) => {
+        const newDroppables = prevDroppables.map((droppable) => {
+          const hasMatchingId = droppable.draggableIds.some(({ draggableId }) => draggableId === active.id);
+          if (!hasMatchingId) return droppable;
+          const oldIndex = droppable.draggableIds.findIndex(d => d.draggableId === active.id);
+          const newIndex = droppable.draggableIds.findIndex(d => d.draggableId === over.id);
+          arrayMove(droppable.draggableIds, oldIndex, newIndex);
+          return droppable;
+        });
+        return newDroppables;
       });
     }
 
@@ -177,6 +208,7 @@ const ComboString = styled.div`
 const RemoveStepButton = styled(UnstyledButton)`
   display: none;
   position: absolute;
+  z-index: 999;
   top: -10px;
   right: -10px;
   padding: 2px;
@@ -186,11 +218,12 @@ const RemoveStepButton = styled(UnstyledButton)`
 `;
 
 const Step = styled.div`
+  position: relative;
   padding: 12px;
   display: flex;
   flex-direction: row;
   flex-wrap: wrap;
-  border: 2px dashed ${COLORS.gray[300]};
+  border: 2px solid ${COLORS.black};
   background-color: ${COLORS.white};
   gap: 6px;
   min-width: 74px;
@@ -203,6 +236,21 @@ const Step = styled.div`
   }
 `;
 
+const Placeholder = styled.div`
+  --placeholder-size: ${(INPUTS.size + 14) / 16}rem;
+  width: var(--placeholder-size);
+  height: var(--placeholder-size);
+  border: 2px dashed ${COLORS.gray[300]};
+  pointer-events: none;
+  border-radius: 50%;
+`;
+
 const AddStepButton = styled(Button)`
   align-self: center;
+`;
+
+const StepWrapper = styled.div`
+  display: flex;
+  align-items: center;
+  gap: 12px;
 `;

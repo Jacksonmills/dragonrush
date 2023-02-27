@@ -23,17 +23,30 @@ const Sortable = ({ children, id, type, accepts, handle = false }: DndProps) => 
   });
 
   return (
-    <Wrapper
-      ref={setNodeRef}
-      transform={transform}
-      transition={transition}
-      isDragging={attributes["aria-pressed"]}
-      {...attributes}
-      {...listeners}
-    >
-      {children}
-      {handle && <Handle isDragging={attributes["aria-pressed"]} className="handle" {...attributes} {...listeners}><Move /></Handle>}
-    </Wrapper>
+    <>
+      {handle ? (
+        <Wrapper
+          ref={setNodeRef}
+          transform={transform}
+          transition={transition}
+          isDragging={attributes["aria-pressed"]}
+        >
+          {children}
+          <Handle isDragging={attributes["aria-pressed"]} className="handle" {...attributes} {...listeners}><Move /></Handle>
+        </Wrapper>
+      ) : (
+        <Wrapper
+          ref={setNodeRef}
+          transform={transform}
+          transition={transition}
+          isDragging={attributes["aria-pressed"]}
+          {...attributes}
+          {...listeners}
+        >
+          {children}
+        </Wrapper>
+      )}
+    </>
   );
 };
 
@@ -43,7 +56,7 @@ const Wrapper = styled.div<{
   isDragging?: boolean;
 }>`
   position: relative;
-  z-index: ${props => (props.isDragging ? '9999' : 'unset')};
+  z-index: ${props => (props.isDragging ? '99' : 'unset')};
   transform: ${props => props.transform && `translate3d(${props.transform.x}px, ${props.transform.y}px, 0)`};
   transition: ${props => props.transition};
 `;
