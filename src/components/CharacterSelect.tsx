@@ -28,6 +28,7 @@ const CharacterSelect = ({ characters }: { characters: Character[]; }) => {
     const modalDiv: HTMLElement = document.getElementById('modal')!;
     return createPortal(
       <CharacterPortal>
+        <Overlay onClick={() => setShowCharacters((state) => !state)} />
         <Wrapper>
           <Modal>
             <AnimatedDiv
@@ -97,6 +98,14 @@ const CharacterPortal = styled.div`
   top: 0;
   left: 0;
   background-color: hsla(0, 0%, 0%, 0.60);
+`;
+
+const Overlay = styled.div`
+  position: fixed;
+  height: 100%;
+  width: 100%;
+  background-color: none;
+  cursor: pointer;
 `;
 
 const Wrapper = styled.div`
