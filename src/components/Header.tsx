@@ -14,6 +14,7 @@ import { PlusCircle, Tool } from 'react-feather';
 import Logo from './Logo';
 import CreateComboButton from './CreateComboButton';
 import UnstyledButton from './UnstyledButton';
+import CharacterRank from './CharacterRank';
 
 const Header = () => {
   const { data: characters, isLoading } = trpc.useQuery(["character.getAll"]);
@@ -32,7 +33,7 @@ const Header = () => {
       <NavControls>
         <Link href='/combo/create' passHref>
           <LinkWrapper>
-            <Button>Build <Tool /></Button>
+            <Button><ButtonText>Build</ButtonText> <Tool /></Button>
           </LinkWrapper>
         </Link>
         <LinkWrapper>
@@ -59,6 +60,7 @@ const Header = () => {
             </DropDown>
           </UserAuth>
         )}
+        {(loggedIn && !isDev) && (<CharacterRank characters={characters} />)}
       </NavControls>
     </Wrapper>
   );
@@ -152,6 +154,13 @@ const LinkWrapper = styled.div`
   display: flex;
   gap: 10px;
   align-items: center;
+`;
+
+const ButtonText = styled.span`
+  display: none;
+  @media (min-width: 768px) {
+    display: flex;
+  }
 `;
 
 export default Header;

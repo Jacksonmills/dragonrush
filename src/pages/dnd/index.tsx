@@ -14,6 +14,7 @@ import Sortable from '@/components/Sortable';
 import { COLORS, INPUTS } from '@/constants';
 import { ChevronRight, X } from 'react-feather';
 import UnstyledButton from '@/components/UnstyledButton';
+import ScrollLock from 'react-scrolllock';
 
 type DroppableProps = {
   dropId: UniqueIdentifier;
@@ -58,54 +59,56 @@ export default function DndPage() {
   );
 
   return (
-    <SiteLayoutWrapper>
-      <MaxWidthWrapper>
-        <DndContext
-          id="0-dnd"
-          sensors={sensors}
-          onDragEnd={handleDragEnd}
-        >
-          <Wrapper>
-            <Toolbox>
-              {tools.map(({ draggableId, payload }) => (
-                <Draggable key={draggableId} id={draggableId} payload={payload} type="TOOL">
-                  <Input input={payload} />
-                </Draggable>
-              ))}
-            </Toolbox>
-            <ComboBoard>
-              <SortableContext items={droppables.map(d => d.dropId)} strategy={rectSwappingStrategy}>
-                <ComboString>
-                  {droppables.map(({ dropId, draggableIds }) => (
-                    <Sortable key={dropId} id={dropId} handle={true}>
-                      <SortableContext items={draggableIds.map(d => d.draggableId)} strategy={rectSwappingStrategy}>
-                        <Droppable id={dropId} accepts={["TOOL", "INPUT"]}>
-                          <StepWrapper>
-                            <Step>
-                              {draggableIds.map(({ draggableId, payload }) => (
-                                <Sortable key={draggableId} id={draggableId}>
-                                  <Draggable id={draggableId} payload={payload} type="INPUT">
-                                    <Input input={payload} />
-                                  </Draggable>
-                                </Sortable>
-                              ))}
-                              {(draggableIds[draggableIds.length - 1] || draggableIds.length <= 0) && (<Placeholder />)}
-                              <RemoveStepButton onClick={() => removeStep(dropId)}><X /></RemoveStepButton>
-                            </Step>
-                            <ChevronRight />
-                          </StepWrapper>
-                        </Droppable>
-                      </SortableContext>
-                    </Sortable>
-                  ))}
-                  <AddStepButton onClick={addStep}>Add Step</AddStepButton>
-                </ComboString>
-              </SortableContext>
-            </ComboBoard>
-          </Wrapper>
-        </DndContext>
-      </MaxWidthWrapper>
-    </SiteLayoutWrapper >
+    <SiteLayoutWrapper isFullLayout={false}>
+      <ScrollLock>
+        <MaxWidthWrapper>
+          <DndContext
+            id="0-dnd"
+            sensors={sensors}
+            onDragEnd={handleDragEnd}
+          >
+            <Wrapper>
+              <Toolbox>
+                {tools.map(({ draggableId, payload }) => (
+                  <Draggable key={draggableId} id={draggableId} payload={payload} type="TOOL">
+                    <Input input={payload} />
+                  </Draggable>
+                ))}
+              </Toolbox>
+              <ComboBoard>
+                <SortableContext items={droppables.map(d => d.dropId)} strategy={rectSwappingStrategy}>
+                  <ComboString>
+                    {droppables.map(({ dropId, draggableIds }) => (
+                      <Sortable key={dropId} id={dropId} handle={true}>
+                        <SortableContext items={draggableIds.map(d => d.draggableId)} strategy={rectSwappingStrategy}>
+                          <Droppable id={dropId} accepts={["TOOL", "INPUT"]}>
+                            <StepWrapper>
+                              <Step>
+                                {draggableIds.map(({ draggableId, payload }) => (
+                                  <Sortable key={draggableId} id={draggableId}>
+                                    <Draggable id={draggableId} payload={payload} type="INPUT">
+                                      <Input input={payload} />
+                                    </Draggable>
+                                  </Sortable>
+                                ))}
+                                {(draggableIds[draggableIds.length - 1] || draggableIds.length <= 0) && (<Placeholder />)}
+                                <RemoveStepButton onClick={() => removeStep(dropId)}><X /></RemoveStepButton>
+                              </Step>
+                              <ChevronRight />
+                            </StepWrapper>
+                          </Droppable>
+                        </SortableContext>
+                      </Sortable>
+                    ))}
+                    <AddStepButton onClick={addStep}>Add Step</AddStepButton>
+                  </ComboString>
+                </SortableContext>
+              </ComboBoard>
+            </Wrapper>
+          </DndContext>
+        </MaxWidthWrapper>
+      </ScrollLock>
+    </SiteLayoutWrapper>
   );
 
   function addStep() {
@@ -180,7 +183,15 @@ export default function DndPage() {
 
 const Wrapper = styled.div`
   display: flex;
+  height: 100vh;
+  flex-direction: column-reverse;
+  justify-content: space-between;
   gap: 26px;
+  padding: 32px 0;
+
+  @media (min-width: 768px) {
+    flex-direction: row;
+  }
 `;
 
 const Toolbox = styled(Card)`
@@ -229,9 +240,18 @@ const Step = styled.div`
   min-width: 74px;
   min-height: 74px;
 
-  &:hover {
+  ${RemoveStepButton} {
+    display: flex;
+  }
+
+  @media (min-width: 768px) {
     ${RemoveStepButton} {
-      display: flex;
+      display: none;
+    }
+    &:hover {
+      ${RemoveStepButton} {
+        display: flex;
+      }
     }
   }
 `;

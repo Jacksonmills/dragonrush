@@ -14,7 +14,6 @@ const MyApp: AppType = ({
     <SessionProvider session={session}>
       <Component {...pageProps} />
       <GlobalStyles />
-      <div id='modal'></div>
     </SessionProvider>
   );
 };

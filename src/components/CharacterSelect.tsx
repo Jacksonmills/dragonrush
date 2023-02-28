@@ -1,10 +1,10 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useRef, RefObject } from 'react';
 import { useSpring, animated } from 'react-spring';
 import { createPortal } from 'react-dom';
 import styled from 'styled-components';
 import Link from 'next/link';
 import Image from 'next/image';
-import { Minimize2 } from 'react-feather';
+import { Minimize2, Users } from 'react-feather';
 
 import UnstyledButton from './UnstyledButton';
 import Button from './Button';
@@ -15,6 +15,8 @@ const CharacterSelect = ({ characters }: { characters: Character[]; }) => {
   const [showCharacters, setShowCharacters] = useState(false);
   const [isHovered, setIsHovered] = useState(false);
 
+  const modalRef = useRef<HTMLElement>(null);
+
   const styles = useSpring({
     willChange: 'transform',
     transform: isHovered ? `scale(1.1)` : `scale(1)`,
@@ -24,10 +26,9 @@ const CharacterSelect = ({ characters }: { characters: Character[]; }) => {
     },
   });
 
-  const Characters = () => {
-    const modalDiv: HTMLElement = document.getElementById('modal')!;
+  const Characters = ({ modalRef }: { modalRef: RefObject<HTMLElement>; }) => {
     return createPortal(
-      <CharacterPortal>
+      <CharacterPortal ref={modalRef}>
         <Overlay onClick={() => setShowCharacters((state) => !state)} />
         <Wrapper>
           <Modal>
@@ -69,16 +70,16 @@ const CharacterSelect = ({ characters }: { characters: Character[]; }) => {
           </Modal>
         </Wrapper>
       </CharacterPortal>,
-      modalDiv
+      document.body
     );
   };
 
   return (
     <>
       <Button onClick={() => setShowCharacters((state) => !state)}>
-        Character Select
+        <ButtonText>Character Select</ButtonText> <Users />
       </Button>
-      {showCharacters && <Characters />}
+      {showCharacters && <Characters modalRef={modalRef} />}
     </>
   );
 };
@@ -91,7 +92,9 @@ const Links = styled.ul`
   justify-content: center;
 `;
 
-const CharacterPortal = styled.div`
+const CharacterPortal = styled.div<{
+  ref: any;
+}>`
   position: fixed;
   height: 100%;
   width: 100%;
@@ -157,6 +160,13 @@ const ImageWrapper = styled.a`
     will-change: transform, filter;
     transition: all 100ms ease;
     transition-property: transform, filter;
+  }
+`;
+
+const ButtonText = styled.span`
+  display: none;
+  @media (min-width: 768px) {
+    display: flex;
   }
 `;
 

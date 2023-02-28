@@ -1,9 +1,11 @@
 import styled from 'styled-components';
 
-export default styled.div`
+export default styled.div<{
+  isFullLayout: boolean,
+}>`
   position: relative;
   min-height: 100%;
-  padding-top: 72px;
+  padding-top: ${props => (props.isFullLayout ? '72px' : '0')};
   background: hsl(0, 55%, 47%);
   background: linear-gradient(
     335deg,

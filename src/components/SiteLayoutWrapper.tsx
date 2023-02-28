@@ -6,8 +6,9 @@ import AddCharacter from './AddCharacter';
 import Footer from './Footer';
 import Header from './Header';
 import Layout from './Layout';
+import { truncate } from 'fs/promises';
 
-const SiteLayoutWrapper = ({ children }: { children: React.ReactNode; }) => {
+const SiteLayoutWrapper = ({ children, isFullLayout = true }: { children: React.ReactNode; isFullLayout?: boolean; }) => {
   const isDev = process.env.NODE_ENV !== 'production';
 
   return (
@@ -17,8 +18,8 @@ const SiteLayoutWrapper = ({ children }: { children: React.ReactNode; }) => {
         <meta name="description" content="Build share and practice combos" />
         <link rel="icon" href="/favicon.ico" />
       </Head>
-      <Header />
-      <Layout>
+      {isFullLayout && <Header />}
+      <Layout isFullLayout={isFullLayout}>
         {isDev && (
           <AdminNav>
             <AdminHeader>Admin</AdminHeader>
@@ -27,7 +28,7 @@ const SiteLayoutWrapper = ({ children }: { children: React.ReactNode; }) => {
         )}
         {children}
       </Layout>
-      <Footer />
+      {isFullLayout && <Footer />}
     </>
   );
 };

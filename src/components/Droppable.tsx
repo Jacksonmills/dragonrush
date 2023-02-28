@@ -26,7 +26,7 @@ const Droppable = ({ children, id, type, accepts }: DndProps) => {
 const Wrapper = styled.div<{
   isOver: boolean,
 }>`
-  outline: ${props => (props.isOver ? `2px solid ${COLORS.black}` : undefined)};
+  outline: ${props => (props.isOver ? `4px dashed ${COLORS.black}` : undefined)};
   outline-offset: ${props => (props.isOver ? '2px' : undefined)};
   width: 100%;
   height: auto;

@@ -72,10 +72,15 @@ export const Handle = styled.div<{
   border-radius: 50%;
   cursor: ${props => (props.isDragging ? 'grabbing' : 'grab')};
   border: 2px solid ${COLORS.black};
-  display: none;
+  display: flex;
+  
 
-  *:active > &, *:hover > & {
-    display: flex;
+  @media (min-width: 768px) {
+    display: none;
+
+    *:active > &, *:hover > & {
+      display: flex;
+    }
   }
 `;
 

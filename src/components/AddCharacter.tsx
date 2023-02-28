@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { RefObject, useRef, useState } from 'react';
 import { useSpring, animated } from 'react-spring';
 import { createPortal } from 'react-dom';
 import styled from 'styled-components';
@@ -19,6 +19,8 @@ const AddCharacter = () => {
   const router = useRouter();
   const [isHovered, setIsHovered] = useState(false);
   const [showModal, setShowModal] = useState(false);
+
+  const modalRef = useRef<HTMLElement>(null);
 
   const styles = useSpring({
     willChange: 'transform',
@@ -50,11 +52,9 @@ const AddCharacter = () => {
   });
   if (isLoading || data) return <div>Loading...</div>;
 
-  const AddCharacterModal = () => {
-    const modalDiv: HTMLElement = document.getElementById('modal')!;
-
+  const AddCharacterModal = ({ modalRef }: { modalRef: RefObject<HTMLElement>; }) => {
     return createPortal(
-      <AddCharacterPortal>
+      <AddCharacterPortal ref={modalRef}>
         <Wrapper>
           <Modal>
             <AnimatedDiv
@@ -124,7 +124,7 @@ const AddCharacter = () => {
           </Modal>
         </Wrapper>
       </AddCharacterPortal>,
-      modalDiv
+      document.body
     );
   };
 
@@ -133,7 +133,7 @@ const AddCharacter = () => {
       <StyledButton onClick={() => setShowModal((state) => !state)}>
         Add Character
       </StyledButton>
-      {showModal && <AddCharacterModal />}
+      {showModal && <AddCharacterModal modalRef={modalRef} />}
     </>
   );
 };
@@ -142,7 +142,9 @@ const StyledButton = styled(Button)`
   font-size: ${12 / 16}rem;
 `;
 
-const AddCharacterPortal = styled.div`
+const AddCharacterPortal = styled.div<{
+  ref: any;
+}>`
   position: fixed;
   height: 100%;
   width: 100%;
