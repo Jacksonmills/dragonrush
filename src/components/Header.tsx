@@ -60,7 +60,7 @@ const Header = () => {
             </DropDown>
           </UserAuth>
         )}
-        {(loggedIn && !isDev) && (<CharacterRank characters={characters} />)}
+        {/* {(loggedIn && !isDev) && (<CharacterRank characters={characters} />)} */}
       </NavControls>
     </Wrapper>
   );
