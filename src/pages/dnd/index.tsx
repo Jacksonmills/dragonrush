@@ -86,6 +86,7 @@ export default function DndPage() {
                               <Step>
                                 {draggableIds.map(({ draggableId, payload }) => (
                                   // TODO: right here i need to combine dnd-kit sortable and draggable so their animations don't stack
+
                                   <Sortable key={draggableId} id={draggableId}>
                                     <Draggable id={draggableId} payload={payload} type="INPUT">
                                       <Input input={payload} />
