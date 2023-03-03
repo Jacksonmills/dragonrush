@@ -3,6 +3,7 @@ import React from 'react';
 import styled from 'styled-components';
 import { Transform } from '@dnd-kit/utilities';
 import { DndProps } from './ComboBuilder';
+import { CSS } from '@dnd-kit/utilities';
 
 const Draggable = ({ children, id, type, payload }: DndProps) => {
   const { attributes, listeners, setNodeRef, transform, isDragging } = useDraggable({
@@ -13,11 +14,16 @@ const Draggable = ({ children, id, type, payload }: DndProps) => {
     }
   });
 
+  const style = {
+    transform: CSS.Translate.toString(transform),
+  };
+
   return (
     <Wrapper
       ref={setNodeRef}
       transform={transform}
       isDragging={isDragging}
+      style={style}
       {...listeners}
       {...attributes}
     >
@@ -31,7 +37,6 @@ const Wrapper = styled.div<{
   isDragging: boolean;
 }>`
   position: relative;
-  transform: ${props => props.transform && `translate3d(${props.transform.x}px, ${props.transform.y}px, 0)`};
   z-index: 99;
   cursor: ${props => (props.isDragging ? 'grabbing' : 'grab')};
 `;

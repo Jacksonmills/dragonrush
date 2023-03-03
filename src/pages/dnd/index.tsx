@@ -17,7 +17,7 @@ import UnstyledButton from '@/components/UnstyledButton';
 import ScrollLock from 'react-scrolllock';
 
 type DroppableProps = {
-  dropId: UniqueIdentifier;
+  droppableId: UniqueIdentifier;
   draggableIds: DraggableProps[];
 };
 
@@ -46,7 +46,7 @@ export default function DndPage() {
   ];
   const [droppables, setDroppables] = useState<DroppableProps[]>([
     {
-      dropId: uuid(), // unique id of droppable step
+      droppableId: uuid(), // unique id of droppable step
       draggableIds: [], // copies of the tools with new unique ids go here
     },
   ]);
@@ -65,6 +65,7 @@ export default function DndPage() {
           <DndContext
             id="0-dnd"
             sensors={sensors}
+            autoScroll={true}
             onDragEnd={handleDragEnd}
           >
             <Wrapper>
@@ -76,25 +77,21 @@ export default function DndPage() {
                 ))}
               </Toolbox>
               <ComboBoard>
-                <SortableContext items={droppables.map(d => d.dropId)} strategy={rectSwappingStrategy}>
+                <SortableContext items={droppables.map(d => d.droppableId)} strategy={rectSwappingStrategy}>
                   <ComboString>
-                    {droppables.map(({ dropId, draggableIds }) => (
-                      <Sortable key={dropId} id={dropId} handle={true}>
-                        <SortableContext items={draggableIds.map(d => d.draggableId)} strategy={rectSwappingStrategy}>
-                          <Droppable id={dropId} accepts={["TOOL", "INPUT"]}>
+                    {droppables.map(({ droppableId, draggableIds }) => (
+                      <Sortable key={droppableId} id={droppableId} handle={true} type="STEP">
+                        <SortableContext items={draggableIds.map(d => d.draggableId)}>
+                          <Droppable id={droppableId} type="SORTABLE" accepts={["INPUT", "TOOL"]}>
                             <StepWrapper>
                               <Step>
                                 {draggableIds.map(({ draggableId, payload }) => (
-                                  // TODO: right here i need to combine dnd-kit sortable and draggable so their animations don't stack
-
-                                  <Sortable key={draggableId} id={draggableId}>
-                                    <Draggable id={draggableId} payload={payload} type="INPUT">
-                                      <Input input={payload} />
-                                    </Draggable>
+                                  <Sortable key={draggableId} id={draggableId} type="INPUT">
+                                    <Input input={payload} />
                                   </Sortable>
                                 ))}
-                                {(draggableIds[draggableIds.length - 1] || draggableIds.length <= 0) && (<Placeholder />)}
-                                <RemoveStepButton onClick={() => removeStep(dropId)}><X /></RemoveStepButton>
+                                <Placeholder />
+                                <RemoveStepButton onClick={() => removeStep(droppableId)}><X /></RemoveStepButton>
                               </Step>
                               <ChevronRight />
                             </StepWrapper>
@@ -117,7 +114,7 @@ export default function DndPage() {
     setDroppables((droppables) => [
       ...droppables,
       {
-        dropId: uuid(),
+        droppableId: uuid(),
         draggableIds: [],
       },
     ]);
@@ -126,40 +123,43 @@ export default function DndPage() {
   function removeStep(id: UniqueIdentifier) {
     console.log(`removed: ${id}`);
     setDroppables((droppables) => {
-      return droppables.filter(({ dropId }) => dropId !== id);
+      return droppables.filter(({ droppableId }) => droppableId !== id);
     });
   }
 
   function handleDragEnd(event: DragEndEvent) {
-    const { over, active, activatorEvent } = event;
+    const { over, active } = event;
     if (!over || !active) return;
 
     // Sorting combo steps
-    if (active.data.current?.type !== "INPUT" && active.data.current?.type !== "TOOL") {
+    if (active.data.current?.type === "STEP") {
       setDroppables((prevDroppables) => {
-        const oldIndex = prevDroppables.findIndex(d => d.dropId === active.id);
-        const newIndex = prevDroppables.findIndex(d => d.dropId === over.id);
+        const oldIndex = prevDroppables.findIndex(d => d.droppableId === active.id);
+        const newIndex = prevDroppables.findIndex(d => d.droppableId === over.id);
         return arrayMove(prevDroppables, oldIndex, newIndex);
       });
     }
 
     // Sorting step inputs
-    if (active.data.current?.type === "INPUT" && active.data.current?.type !== "TOOL") {
+    if (active.data.current?.type === "INPUT") {
+      console.log("sorting inputs");
       setDroppables((prevDroppables) => {
         const newDroppables = prevDroppables.map((droppable) => {
           const hasMatchingId = droppable.draggableIds.some(({ draggableId }) => draggableId === active.id);
-          if (!hasMatchingId) return droppable;
-          const oldIndex = droppable.draggableIds.findIndex(d => d.draggableId === active.id);
-          const newIndex = droppable.draggableIds.findIndex(d => d.draggableId === over.id);
-          arrayMove(droppable.draggableIds, oldIndex, newIndex);
+          if (hasMatchingId) {
+            console.log("step found", droppable.draggableIds);
+            const oldIndex = droppable.draggableIds.findIndex(d => d.draggableId === active.id);
+            const newIndex = droppable.draggableIds.findIndex(d => d.draggableId === over.id);
+            droppable.draggableIds = arrayMove(droppable.draggableIds, oldIndex, newIndex);
+          }
           return droppable;
         });
         return newDroppables;
       });
     }
 
-    // Dropping new button on step
-    if (active.data.current?.type === "INPUT" || active.data.current?.type === "TOOL") {
+    // Dropping new button from toolbox on step
+    if (active.data.current?.type === "TOOL") {
       setDroppables((prevDroppables) => {
         const newDroppables = prevDroppables.map((droppable) => {
           const hasMatchingId = droppable.draggableIds.some(({ draggableId }) => draggableId === active.id);
@@ -169,7 +169,7 @@ export default function DndPage() {
               draggableIds: droppable.draggableIds.filter(({ draggableId }) => draggableId !== active.id),
             };
           }
-          if (droppable.dropId === over.id && !hasMatchingId && active.id !== over.id) {
+          if (droppable.droppableId === over.id && !hasMatchingId && active.id !== over.id) {
             droppable.draggableIds.push({
               draggableId: active.data.current?.type === "TOOL" ? uuid() : active.id,
               payload: active.data.current?.payload,
