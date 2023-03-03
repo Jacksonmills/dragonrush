@@ -2168,11 +2168,6 @@ react-feather@^2.0.10:
   dependencies:
     prop-types "^15.7.2"
 
-react-gamepads@^1.0.0:
-  version "1.0.0"
-  resolved "https://registry.yarnpkg.com/react-gamepads/-/react-gamepads-1.0.0.tgz#72373c6bd332e0c42bb2d1584413d71fdb34f5da"
-  integrity sha512-jfmIBHI1EgjhEUOGTYnrzfhM6fV75d/rZAEuG90fwYBJ2mP2z+Z42UoodXa3OD00q9zGFeQCESlSY20UjAIGzA==
-
 react-hook-form@^7.34.0:
   version "7.43.2"
   resolved "https://registry.yarnpkg.com/react-hook-form/-/react-hook-form-7.43.2.tgz#d8ff71956dc3de258dce19d4b1c7e1c6a0188e67"
