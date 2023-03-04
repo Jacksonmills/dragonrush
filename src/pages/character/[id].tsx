@@ -26,7 +26,7 @@ const CharacterPage = () => {
 
   if (!character || isLoading) return <div>Loading...</div>;
 
-  console.log(character);
+  // console.log(character);
 
   return (
     <SiteLayoutWrapper>

@@ -204,7 +204,7 @@ export default function DndPage() {
   }
 
   function removeStep(id: UniqueIdentifier) {
-    console.log(`removed: ${id}`);
+    // console.log(`removed: ${id}`);
     setDroppables((droppables) => {
       return droppables.filter(({ droppableId }) => droppableId !== id);
     });
@@ -239,12 +239,12 @@ export default function DndPage() {
 
     // Sorting step inputs
     if (active.data.current?.type === "INPUT") {
-      console.log("sorting inputs");
+      // console.log("sorting inputs");
       setDroppables((prevDroppables) => {
         const newDroppables = prevDroppables.map((droppable) => {
           const hasMatchingId = droppable.draggableIds.some(({ draggableId }) => draggableId === active.id);
           if (hasMatchingId) {
-            console.log("step found", droppable.draggableIds);
+            // console.log("step found", droppable.draggableIds);
             const oldIndex = droppable.draggableIds.findIndex(d => d.draggableId === active.id);
             const newIndex = droppable.draggableIds.findIndex(d => d.draggableId === over.id);
             droppable.draggableIds = arrayMove(droppable.draggableIds, oldIndex, newIndex);
