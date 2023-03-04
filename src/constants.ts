@@ -34,6 +34,11 @@ export const INPUTS = {
     'vanish',
     'delay',
     'land'
+  ],
+  misc: [
+    '~',
+    'SD',
+    'DR'
   ]
 };
 

@@ -20,7 +20,7 @@ const SiteLayoutWrapper = ({ children, isFullLayout = true }: { children: React.
       </Head>
       {isFullLayout && <Header />}
       <Layout isFullLayout={isFullLayout}>
-        {isDev && (
+        {(isDev && isFullLayout) && (
           <AdminNav>
             <AdminHeader>Admin</AdminHeader>
             <AddCharacter />

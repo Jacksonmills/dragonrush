@@ -2,7 +2,7 @@ import { useDroppable } from '@dnd-kit/core';
 import React from 'react';
 import styled from 'styled-components';
 import { DndProps } from './ComboBuilder';
-import { COLORS } from '@/constants';
+import { COLORS, INPUTS } from '@/constants';
 
 const Droppable = ({ children, id, type, accepts }: DndProps) => {
   const { isOver, setNodeRef } = useDroppable({
@@ -26,8 +26,9 @@ const Droppable = ({ children, id, type, accepts }: DndProps) => {
 const Wrapper = styled.div<{
   isOver: boolean,
 }>`
-  outline: ${props => (props.isOver ? `4px dashed ${COLORS.black}` : undefined)};
+  outline: ${props => (props.isOver ? `2px dashed ${COLORS.black}` : undefined)};
   outline-offset: ${props => (props.isOver ? '2px' : undefined)};
+  border-radius: 10px;
   width: 100%;
   height: auto;
 `;

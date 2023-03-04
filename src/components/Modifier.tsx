@@ -2,26 +2,38 @@ import styled from 'styled-components';
 
 import { COLORS } from '@/constants';
 import React from 'react';
+import { Toolbox } from '@/pages/dnd';
 
-const Modifier = ({ children, reverse }: { children: React.ReactNode; reverse: boolean; }) => {
+const Modifier = ({ children, reverse = false, isEditMode = false }: { children: React.ReactNode; reverse?: boolean; isEditMode?: boolean; }) => {
   return (
-    <Wrapper reverse={reverse}>
-      <TextWrapper reverse={reverse}>
+    <Wrapper reverse={reverse} isEditMode={isEditMode}>
+      <TextWrapper reverse={reverse} isEditMode={isEditMode}>
         <Text>{children}</Text>
       </TextWrapper>
     </Wrapper>
   );
 };
 
-const Wrapper = styled.div<{ reverse: boolean; }>`
+const Wrapper = styled.div<{
+  reverse: boolean;
+  isEditMode: boolean;
+}>`
   display: inline-block;
   padding: 0 5px;
   z-index: 1;
-  margin-right: ${(props) => (props.reverse ? '5px' : '-24px')};
-  margin-left: ${(props) => (props.reverse ? '-24px' : '5px')};
+
+  ${props => !props.isEditMode && (
+    `
+      margin-right: ${props.reverse ? '5px' : '-24px'};
+      margin-left: ${props.reverse ? '-24px' : '5px'};
+    `
+  )}
 `;
 
-const TextWrapper = styled.span<{ reverse: boolean; }>`
+const TextWrapper = styled.span<{
+  reverse: boolean;
+  isEditMode: boolean;
+}>`
   display: flex;
   align-items: center;
   justify-content: center;
@@ -35,8 +47,11 @@ const TextWrapper = styled.span<{ reverse: boolean; }>`
   min-width: 20px;
   border-radius: 1px;
 
-  padding: ${(props) =>
-    props.reverse ? '0px 5px 1px 16px' : '0px 16px 1px 5px'};
+  ${props => !props.isEditMode && (
+    `
+      padding: ${props.reverse ? '0px 5px 1px 16px' : '0px 16px 1px 5px'};
+    `
+  )}
 
   /* default */
   /* border-top-right-radius: ${(props) => (props.reverse ? '1px' : '0')};
