@@ -15,6 +15,7 @@ import { ChevronRight, X } from 'react-feather';
 import UnstyledButton from '@/components/UnstyledButton';
 import { RemoveScroll } from 'react-remove-scroll';
 import AddStepButton from '@/components/AddStepButton';
+import SortableInput from './SortableInput';
 
 type DroppableProps = {
   droppableId: UniqueIdentifier;
@@ -166,12 +167,13 @@ export default function DndPage() {
                           <StepWrapper>
                             <Step>
                               {draggableIds.map(({ draggableId, payload }) => (
-                                <Sortable key={draggableId} id={draggableId} type="INPUT">
-                                  <InputWrapper>
-                                    <Input input={payload} />
-                                    {/* <RemoveInputButton onClick={() => removeInput(droppableId, draggableId)}><X /></RemoveInputButton> */}
-                                  </InputWrapper>
-                                </Sortable>
+                                <SortableInput
+                                  key={draggableId}
+                                  droppableId={droppableId}
+                                  draggableId={draggableId}
+                                  payload={payload}
+                                  removeInput={removeInput}
+                                />
                               ))}
                               <Placeholder />
                               <RemoveStepButton onClick={() => removeStep(droppableId)}><X /></RemoveStepButton>
