@@ -31,7 +31,7 @@ const Header = () => {
         <Logo fontSize={48} color={COLORS.black}><span>Combo</span>Z</Logo>
       </Link>
       <NavControls>
-        <Link href='/combo/create' passHref>
+        <Link href='/dnd' passHref>
           <LinkWrapper>
             <Button><ButtonText>Build</ButtonText> <Tool /></Button>
           </LinkWrapper>

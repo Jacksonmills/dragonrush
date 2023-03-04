@@ -57,9 +57,7 @@ function ComboBuilder() {
     }
 
     if (over && active?.data.current?.supports.includes(over?.data.current?.type)) {
-      console.log('YOOOO');
       if (over.id === `${over.id}-step`) {
-        console.log('YOOOO');
         setIsDropped(true);
         return;
       }

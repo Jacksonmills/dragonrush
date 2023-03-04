@@ -12,7 +12,7 @@ import { COLORS } from '@/constants';
 import { Character } from '@prisma/client';
 import StylizedHeading from './StylizedHeading';
 import Spacer from './Spacer';
-import ScrollLock from 'react-scrolllock';
+import { RemoveScroll } from 'react-remove-scroll';
 
 const CharacterRank = ({ characters }: { characters: Character[]; }) => {
   const [showCharacters, setShowCharacters] = useState(false);
@@ -38,7 +38,7 @@ const CharacterRank = ({ characters }: { characters: Character[]; }) => {
 
   return createPortal(
     <PortalRef ref={modalRef}>
-      <ScrollLock>
+      <RemoveScroll>
         <CharacterPortal>
           <Overlay onClick={() => setShowCharacters((state) => !state)} />
           <Wrapper>
@@ -83,7 +83,7 @@ const CharacterRank = ({ characters }: { characters: Character[]; }) => {
             </Modal>
           </Wrapper>
         </CharacterPortal>
-      </ScrollLock>
+      </RemoveScroll>
     </PortalRef>,
     document.body
   );

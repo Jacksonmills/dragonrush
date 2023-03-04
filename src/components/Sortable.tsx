@@ -5,6 +5,7 @@ import styled from 'styled-components';
 import { Transform } from '@dnd-kit/utilities';
 import { Move } from 'react-feather';
 import { COLORS } from '@/constants';
+import { CSS } from '@dnd-kit/utilities';
 
 
 const Sortable = ({ children, id, type, accepts, handle = false }: DndProps) => {
@@ -22,6 +23,11 @@ const Sortable = ({ children, id, type, accepts, handle = false }: DndProps) => 
     },
   });
 
+  const style = {
+    transform: CSS.Translate.toString(transform),
+    transition,
+  };
+
   return (
     <>
       {handle ? (
@@ -30,6 +36,8 @@ const Sortable = ({ children, id, type, accepts, handle = false }: DndProps) => 
           transform={transform}
           transition={transition}
           isDragging={attributes["aria-pressed"]}
+          style={style}
+          handle={handle}
         >
           {children}
           <Handle isDragging={attributes["aria-pressed"]} className="handle" {...attributes} {...listeners}><Move /></Handle>
@@ -40,6 +48,7 @@ const Sortable = ({ children, id, type, accepts, handle = false }: DndProps) => 
           transform={transform}
           transition={transition}
           isDragging={attributes["aria-pressed"]}
+          style={style}
           {...attributes}
           {...listeners}
         >
@@ -54,26 +63,36 @@ const Wrapper = styled.div<{
   transform: Transform | null;
   transition: string | undefined;
   isDragging?: boolean;
+  handle?: boolean;
 }>`
   position: relative;
   z-index: ${props => (props.isDragging ? '99' : 'unset')};
-  transform: ${props => props.transform && `translate3d(${props.transform.x}px, ${props.transform.y}px, 0)`};
-  transition: ${props => props.transition};
+  ${props => !props.handle && `cursor: ${(props.isDragging ? 'grabbing' : 'grab')};`}
+  ${props => props.isDragging && `
+    outline: 2px dashed ${COLORS.gray[500]};
+    outline-offset: 4px;
+    border-radius: 6px;
+  `}
 `;
 
 export const Handle = styled.div<{
   isDragging?: boolean;
 }>`
+  --handle-size: ${18 / 16}rem;
   position: absolute;
-  bottom: -10px;
-  left: -10px;
-  background-color: ${COLORS.white};
+  bottom: -4px;
+  left: -4px;
+  background-color: ${COLORS.black};
+  color: ${COLORS.white};
   padding: 2px;
   border-radius: 50%;
   cursor: ${props => (props.isDragging ? 'grabbing' : 'grab')};
-  border: 2px solid ${COLORS.black};
   display: flex;
-  
+
+  svg {
+    width: var(--handle-size);
+    height: var(--handle-size);
+  }
 
   @media (min-width: 768px) {
     display: none;

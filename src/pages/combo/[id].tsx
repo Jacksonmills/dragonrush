@@ -15,7 +15,7 @@ const ComboPage = () => {
 
   if (!combo || isLoading) return <div>Loading...</div>;
 
-  console.log(combo);
+  // console.log(combo);
 
   return (
     <SiteLayoutWrapper>

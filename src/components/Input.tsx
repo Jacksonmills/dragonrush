@@ -8,13 +8,13 @@ import { INPUTS } from '@/constants';
 // import Loop from './Loop';
 // import MultiHit from './MultiHit';
 
-const Input = ({ input }: { input: string; }) => {
+const Input = ({ input, isEditMode = false }: { input: string; isEditMode?: boolean; }) => {
   return (
     <>
       {INPUTS.attacks.includes(input) && (<Attack button={input} />)}
       {INPUTS.assists.includes(input) && (<Attack button={input} />)}
       {INPUTS.directions.includes(input) && (<Dpad direction={input} />)}
-      {INPUTS.modifiers.includes(input) && (<Modifier reverse={false}>{input}</Modifier>)}
+      {INPUTS.modifiers.includes(input) && (<Modifier isEditMode={isEditMode}>{input}</Modifier>)}
       {input === '~' && (<FollowUp />)}
       {input === 'SD' && (<SuperDash />)}
       {input === 'DR' && (<DragonRush />)}
