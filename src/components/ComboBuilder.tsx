@@ -21,7 +21,7 @@ export type DndProps = {
   payload?: any,
 };
 
-export type DndTypes = 'TOOL' | 'INPUT' | 'STEP' | 'BOARD' | 'SORTABLE';
+export type DndTypes = 'TOOL' | 'INPUT' | 'STEP' | 'BOARD';
 
 type SortableSteps = {
   steps: Steps;

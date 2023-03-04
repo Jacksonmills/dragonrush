@@ -82,7 +82,7 @@ export default function DndPage() {
                     {droppables.map(({ droppableId, draggableIds }) => (
                       <Sortable key={droppableId} id={droppableId} handle={true} type="STEP">
                         <SortableContext items={draggableIds.map(d => d.draggableId)}>
-                          <Droppable id={droppableId} type="SORTABLE" accepts={["INPUT", "TOOL"]}>
+                          <Droppable id={droppableId} accepts={["INPUT", "TOOL"]}>
                             <StepWrapper>
                               <Step>
                                 {draggableIds.map(({ draggableId, payload }) => (
