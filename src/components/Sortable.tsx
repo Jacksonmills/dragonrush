@@ -35,6 +35,7 @@ const Sortable = ({ children, id, type, accepts, handle = false }: DndProps) => 
           ref={setNodeRef}
           transform={transform}
           transition={transition}
+          isDragging={attributes["aria-pressed"]}
           style={style}
           handle={handle}
         >
@@ -67,6 +68,11 @@ const Wrapper = styled.div<{
   position: relative;
   z-index: ${props => (props.isDragging ? '99' : 'unset')};
   ${props => !props.handle && `cursor: ${(props.isDragging ? 'grabbing' : 'grab')};`}
+  ${props => props.isDragging && `
+    outline: 2px dashed ${COLORS.gray[500]};
+    outline-offset: 4px;
+    border-radius: 6px;
+  `}
 `;
 
 export const Handle = styled.div<{
