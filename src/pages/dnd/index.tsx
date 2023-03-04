@@ -271,13 +271,8 @@ const Wrapper = styled.div`
 
 const Tools = styled.div`
   display: flex;
-  flex-direction: row;
+  flex-direction: column;
   gap: 24px;
-  overflow-x: scroll;
-
-  @media (min-width: 768px) {
-    flex-direction: column;
-  }
 `;
 
 export const Toolbox = styled(Card)`
