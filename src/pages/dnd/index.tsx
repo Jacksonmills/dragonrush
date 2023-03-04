@@ -14,6 +14,7 @@ import { COLORS, INPUTS } from '@/constants';
 import { ChevronRight, X } from 'react-feather';
 import UnstyledButton from '@/components/UnstyledButton';
 import { RemoveScroll } from 'react-remove-scroll';
+import AddStepButton from '@/components/AddStepButton';
 
 type DroppableProps = {
   droppableId: UniqueIdentifier;
@@ -37,15 +38,24 @@ export default function DndPage() {
     { draggableId: 'tool-5', payload: INPUTS.assists[1]! },
   ];
   const directions: DraggableProps[] = [
-    { draggableId: 'tool-6', payload: INPUTS.directions[0]! },
-    { draggableId: 'tool-7', payload: INPUTS.directions[1]! },
     { draggableId: 'tool-8', payload: INPUTS.directions[2]! },
-    { draggableId: 'tool-9', payload: INPUTS.directions[3]! },
-    { draggableId: 'tool-10', payload: INPUTS.directions[4]! },
+    { draggableId: 'tool-7', payload: INPUTS.directions[1]! },
+    { draggableId: 'tool-6', payload: INPUTS.directions[0]! },
     { draggableId: 'tool-11', payload: INPUTS.directions[5]! },
-    { draggableId: 'tool-12', payload: INPUTS.directions[6]! },
-    { draggableId: 'tool-13', payload: INPUTS.directions[7]! },
+    { draggableId: 'tool-10', payload: INPUTS.directions[4]! },
+    { draggableId: 'tool-9', payload: INPUTS.directions[3]! },
     { draggableId: 'tool-14', payload: INPUTS.directions[8]! },
+    { draggableId: 'tool-13', payload: INPUTS.directions[7]! },
+    { draggableId: 'tool-12', payload: INPUTS.directions[6]! },
+  ];
+  const motions: DraggableProps[] = [
+    { draggableId: 'tool-25', payload: INPUTS.directions[9]! },
+    { draggableId: 'tool-26', payload: INPUTS.directions[10]! },
+    { draggableId: 'tool-27', payload: INPUTS.directions[11]! },
+    { draggableId: 'tool-28', payload: INPUTS.directions[12]! },
+    { draggableId: 'tool-29', payload: INPUTS.directions[13]! },
+    { draggableId: 'tool-30', payload: INPUTS.directions[14]! },
+
   ];
   const modifiers: DraggableProps[] = [
     { draggableId: 'tool-15', payload: INPUTS.modifiers[0]! },
@@ -86,56 +96,70 @@ export default function DndPage() {
         >
           <Wrapper>
             <Tools>
+              <AddStepButton onClick={addStep}>Add Step</AddStepButton>
+              <ToolboxRow>
+                <Toolbox>
+                  <ToolsWrapper columns={2}>
+                    {attacks.map(({ draggableId, payload }) => (
+                      <Draggable key={draggableId} id={draggableId} payload={payload} type="TOOL">
+                        <Input input={payload} />
+                      </Draggable>
+                    ))}
+                  </ToolsWrapper>
+                </Toolbox>
+                <Toolbox>
+                  <ToolsWrapper columns={1}>
+                    {assists.map(({ draggableId, payload }) => (
+                      <Draggable key={draggableId} id={draggableId} payload={payload} type="TOOL">
+                        <Input input={payload} />
+                      </Draggable>
+                    ))}
+                  </ToolsWrapper>
+                </Toolbox>
+              </ToolboxRow>
               <Toolbox>
-                <ToolsWrapper>
-                  {attacks.map(({ draggableId, payload }) => (
+                <ToolsWrapper columns={3}>
+                  {directions.reverse().map(({ draggableId, payload }) => (
                     <Draggable key={draggableId} id={draggableId} payload={payload} type="TOOL">
                       <Input input={payload} />
                     </Draggable>
                   ))}
                 </ToolsWrapper>
               </Toolbox>
-              <Toolbox>
-                <ToolsWrapper>
-                  {assists.map(({ draggableId, payload }) => (
-                    <Draggable key={draggableId} id={draggableId} payload={payload} type="TOOL">
-                      <Input input={payload} />
-                    </Draggable>
-                  ))}
-                </ToolsWrapper>
-              </Toolbox>
-              <Toolbox>
-                <ToolsWrapper>
-                  {directions.map(({ draggableId, payload }) => (
-                    <Draggable key={draggableId} id={draggableId} payload={payload} type="TOOL">
-                      <Input input={payload} />
-                    </Draggable>
-                  ))}
-                </ToolsWrapper>
-              </Toolbox>
-              <Toolbox>
-                <ToolsWrapper>
-                  {modifiers.map(({ draggableId, payload }) => (
-                    <Draggable key={draggableId} id={draggableId} payload={payload} type="TOOL">
-                      <Input input={payload} isEditMode={true} />
-                    </Draggable>
-                  ))}
-                </ToolsWrapper>
-              </Toolbox>
-              <Toolbox>
-                <ToolsWrapper>
-                  {misc.map(({ draggableId, payload }) => (
-                    <Draggable key={draggableId} id={draggableId} payload={payload} type="TOOL">
-                      <Input input={payload} />
-                    </Draggable>
-                  ))}
-                </ToolsWrapper>
-              </Toolbox>
+              <ToolboxRow>
+                <Toolbox>
+                  <ToolsWrapper columns={1}>
+                    {motions.map(({ draggableId, payload }) => (
+                      <Draggable key={draggableId} id={draggableId} payload={payload} type="TOOL">
+                        <Input input={payload} isEditMode={true} />
+                      </Draggable>
+                    ))}
+                  </ToolsWrapper>
+                </Toolbox>
+                <Toolbox>
+                  <ToolsWrapper columns={1}>
+                    {modifiers.map(({ draggableId, payload }) => (
+                      <Draggable key={draggableId} id={draggableId} payload={payload} type="TOOL">
+                        <Input input={payload} isEditMode={true} />
+                      </Draggable>
+                    ))}
+                  </ToolsWrapper>
+                </Toolbox>
+                <Toolbox>
+                  <ToolsWrapper columns={1}>
+                    {misc.map(({ draggableId, payload }) => (
+                      <Draggable key={draggableId} id={draggableId} payload={payload} type="TOOL">
+                        <Input input={payload} />
+                      </Draggable>
+                    ))}
+                  </ToolsWrapper>
+                </Toolbox>
+              </ToolboxRow>
             </Tools>
             <ComboBoard>
               <SortableContext items={droppables.map(d => d.droppableId)} strategy={rectSwappingStrategy}>
                 <ComboString>
-                  {droppables.map(({ droppableId, draggableIds }) => (
+                  {droppables.map(({ droppableId, draggableIds }, index) => (
                     <Sortable key={droppableId} id={droppableId} handle={true} type="STEP">
                       <SortableContext items={draggableIds.map(d => d.draggableId)}>
                         <Droppable id={droppableId} accepts={["INPUT", "TOOL"]}>
@@ -152,13 +176,12 @@ export default function DndPage() {
                               <Placeholder />
                               <RemoveStepButton onClick={() => removeStep(droppableId)}><X /></RemoveStepButton>
                             </Step>
-                            <ChevronRight />
+                            {droppables.length - 1 > index && (<ChevronRight />)}
                           </StepWrapper>
                         </Droppable>
                       </SortableContext>
                     </Sortable>
                   ))}
-                  <AddStepButton onClick={addStep}>Add Step</AddStepButton>
                 </ComboString>
               </SortableContext>
             </ComboBoard>
@@ -273,18 +296,30 @@ const Tools = styled.div`
   display: flex;
   flex-direction: column;
   gap: 24px;
+  align-items: center;
+  justify-content: flex-start;
 `;
 
 export const Toolbox = styled(Card)`
   padding: 0;
   height: fit-content;
+  width: fit-content;
+  padding: 6px;
 `;
 
-const ToolsWrapper = styled.div`
+const ToolboxRow = styled.div`
+  display: flex;
+  flex-direction: row;
+  gap: 24px;
+`;
+
+const ToolsWrapper = styled.div<{
+  columns: number,
+}>`
   width: 100%;
   height: 100%;
   display: grid;
-  grid-template-columns: repeat(3, 1fr);
+  grid-template-columns: ${props => `repeat(${props.columns}, 1fr)`};
   gap: 12px;
 `;
 
@@ -356,10 +391,6 @@ const Placeholder = styled.div`
   border: 2px dashed ${COLORS.gray[500]};
   pointer-events: none;
   border-radius: 50%;
-`;
-
-const AddStepButton = styled(Button)`
-  align-self: center;
 `;
 
 const StepWrapper = styled.div`
